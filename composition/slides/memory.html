@@ -1,0 +1,165 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    #root {
+      background: #f3f6fa;
+      color: #111820;
+    }
+    #root .kicker {
+      color: #263443;
+      font-weight: 650;
+    }
+    #root .number {
+      top: auto;
+      bottom: 42px;
+      color: #536279;
+    }
+    #root h2 {
+      margin-top: 18px;
+      font-size: 48px;
+      font-weight: 750;
+    }
+    .memory-definition {
+      margin-top: 12px;
+      font-size: 40px;
+      line-height: 1.4;
+      color: #4c617b;
+      letter-spacing: -0.025em;
+    }
+    .memory-pair {
+      position: absolute;
+      left: 112px;
+      right: 112px;
+      top: 300px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 44px;
+    }
+    .memory-example {
+      height: 584px;
+      padding: 0 16px;
+    }
+    .memory-example h3 {
+      font-size: 56px;
+      font-weight: 720;
+      letter-spacing: -0.025em;
+    }
+    .memory-viz {
+      display: block;
+      width: 100%;
+      height: 400px;
+      object-fit: contain;
+      margin: 12px 0 16px;
+    }
+    .memory-example blockquote {
+      font-size: 40px;
+      line-height: 1.45;
+      font-weight: 550;
+      letter-spacing: -0.035em;
+    }
+    .memory-example em {
+      font-style: normal;
+      font-weight: 700;
+      color: #075ddd;
+    }
+    .memory-specific-heading {
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      white-space: nowrap;
+    }
+    .memory-depression {
+      font-size: 40px;
+      font-weight: 700;
+      color: #075ddd;
+    }
+    .memory-decrease {
+      font-size: 56px;
+      font-weight: 750;
+      color: #075ddd;
+    }
+    #root .source {
+      color: #536279;
+      font-size: 28px;
+      bottom: 42px;
+    }
+  </style>
+  <div
+    id="root"
+    data-composition-id="memory"
+    data-width="1920"
+    data-height="1080"
+  >
+    <section
+      id="memory-page"
+      class="page clip"
+      data-hold
+      data-start="0"
+      data-duration="6"
+    >
+      <p class="kicker">연구 배경</p><span class="number">03</span>
+      <h2>자서전적 기억</h2>
+      <p class="memory-definition">자신의 삶에서 경험한 사건에 대한 기억</p>
+      <div class="memory-pair">
+        <div class="memory-example" id="memory-a"
+          ><h3>과잉일반화 기억</h3>
+          <img
+            class="memory-viz"
+            src="assets/memory/overgeneral-memory-v1.png"
+            alt="과거를 떠올리는 인물과 세부가 흐릿한 공원 풍경을 담은 생각 말풍선"
+          />
+          <blockquote>“공원에서 산책했다.”</blockquote>
+        </div>
+        <div class="memory-example" id="memory-b"
+          ><div class="memory-specific-heading"
+            ><h3
+              >구체적인 기억
+              <span
+                class="memory-decrease"
+                id="memory-decrease"
+                aria-label="감소"
+                >↓</span
+              ></h3
+            ><span class="memory-depression" id="memory-depression"
+              >우울</span
+            ></div
+          >
+          <img
+            class="memory-viz"
+            src="assets/memory/specific-memory-v1.png"
+            alt="친구와 공원에서 산책하는 선명한 기억. 맑은 날씨, 토요일 달력, 오후 3시를 가리키는 시계가 보인다"
+          />
+          <blockquote
+            >토요일 오후 3시 · 맑음<br />친구와 동네 공원 산책</blockquote
+          >
+        </div>
+      </div>
+      <p class="source">Williams et al., 2007 · 설명용 예시 · AI 생성 이미지</p>
+    </section>
+  </div>
+  <script>
+    const memory = gsap.timeline({ paused: true });
+    memory.fromTo(
+      '#memory-a',
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
+      0.1,
+    );
+    memory.fromTo(
+      '#memory-b',
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
+      2,
+    );
+    memory.fromTo(
+      '#memory-depression,#memory-decrease',
+      { opacity: 0, y: 20 },
+      { opacity: 1, y: 0, duration: 0.6, ease: 'power2.out' },
+      4,
+    );
+    window.__timelines.memory = memory;
+  </script>
+</template>

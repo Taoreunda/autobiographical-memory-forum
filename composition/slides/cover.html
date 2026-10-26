@@ -1,0 +1,168 @@
+<template>
+  <style>
+    /* Maze cover: title lower-left, shared 3D diagram upper-right. */
+    #root {
+      position: absolute;
+      inset: 0;
+      background: #f3f6fa;
+      color: #111820;
+    }
+    #cover-page {
+      padding: 0;
+    }
+    .cover-meta {
+      position: absolute;
+      left: 112px;
+      top: 84px;
+      width: 620px;
+      display: block;
+      color: #263443;
+      font-size: 28px;
+      font-weight: 650;
+      line-height: 1.45;
+      z-index: 2;
+    }
+    .cover-title {
+      position: absolute;
+      left: 112px;
+      top: 562px;
+      z-index: 2;
+      max-width: 1100px;
+      color: #111820;
+      letter-spacing: -0.04em;
+      font-weight: 700;
+    }
+    .cover-context {
+      display: block;
+      font-size: 51px;
+      line-height: 1.3;
+      font-weight: 720;
+    }
+    .cover-main {
+      display: block;
+      font-size: 130px;
+      line-height: 1.15;
+      margin-top: 17px;
+      color: #075ddd;
+      letter-spacing: -0.055em;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+    .cover-bottom {
+      position: absolute;
+      left: 112px;
+      right: 112px;
+      bottom: 42px;
+      display: flex;
+      justify-content: space-between;
+      padding: 0;
+      border: 0;
+      font-size: 28px;
+      color: #536279;
+      z-index: 2;
+    }
+    #classification-art {
+      position: absolute;
+      left: 785px;
+      top: 26px;
+      width: 1120px;
+      height: 735px;
+      z-index: 1;
+    }
+    #classification-canvas {
+      position: relative;
+      z-index: 0;
+      display: block;
+      width: 1120px;
+      height: 735px;
+    }
+    .art-label {
+      position: absolute;
+      z-index: 2;
+      font-size: 36px;
+      line-height: 1.25;
+      font-weight: 650;
+      color: #4c617b;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      pointer-events: none;
+    }
+    #label-model {
+      color: #205ed2;
+      font-size: 38px;
+      font-weight: 750;
+    }
+    .cover-access { position:absolute;left:1230px;top:736px;display:flex;align-items:center;gap:30px;z-index:3;text-decoration:none;color:#263443; }
+    .cover-access span { width:288px;font-size:40px;font-weight:650;line-height:1.4;text-align:right; }
+    .cover-access img { width:260px;height:260px;display:block; }
+    .cover-access:focus-visible { outline:4px solid #075ddd;outline-offset:8px; }
+  </style>
+  <div
+    id="root"
+    data-composition-id="cover"
+    data-width="1920"
+    data-height="1080"
+  >
+    <section
+      id="cover-page"
+      class="page clip"
+      data-hold
+      data-start="0"
+      data-duration="16"
+    >
+      <div class="cover-meta"
+        ><span>사회적연결회복 컨소시엄 사업단<br />월례포럼</span></div
+      >
+      <div
+        id="classification-art"
+        role="img"
+        aria-label="자서전적 기억, 음성, 텍스트 정보를 통합하여 두 집단 중 하나로 분류하는 개념 애니메이션"
+      >
+        <!-- Slanted label bounds include transparent corners over the canvas; text is intentionally layered above it. -->
+        <canvas id="classification-canvas" width="1120" height="735"></canvas>
+        <span class="art-label" data-layout-allow-occlusion id="label-memory"
+          >자서전적 기억</span
+        ><span class="art-label" data-layout-allow-occlusion id="label-voice"
+          >음성</span
+        ><span class="art-label" data-layout-allow-occlusion id="label-language"
+          >텍스트</span
+        ><span class="art-label" data-layout-allow-occlusion id="label-model"
+          >분류 모델</span
+        ><span class="art-label" data-layout-allow-occlusion id="label-low"
+          >우울 증상 낮음</span
+        ><span class="art-label" data-layout-allow-occlusion id="label-high"
+          >우울 증상 높음</span
+        >
+      </div>
+      <h1 class="cover-title" id="cover-title"
+        ><span class="cover-context"
+          >자서전적 기억 면담의<br />음성·텍스트 특징을 활용한<br />머신러닝
+          기반</span
+        ><span class="cover-main" id="cover-main">우울 증상 분류</span></h1
+      >
+      <a class="cover-access" href="https://taoreunda.github.io/autobiographical-memory-forum/" target="_blank" rel="noopener" aria-label="발표자료 열기">
+        <span>발표자료<br>바로 보기</span><img src="assets/cover/presentation-qr.png" alt="발표자료 접속 QR 코드" width="260" height="260">
+      </a>
+      <div class="cover-bottom"><span>2026. 10. 28.</span><span>01</span></div>
+    </section>
+  </div>
+  <script>
+    window.__hf = window.__hf || {};
+    window.__hf.buildReady = window.__hf.buildReady || {};
+    window.__hf.buildReady.cover3D =
+      import('./assets/cover/classification-scene.js?v=shared-2').then(
+        ({ initCover }) => {
+          const render = initCover(document);
+          const clock = { value: 0 };
+          const timeline = gsap.timeline({
+            paused: true,
+            onUpdate() {
+              render(this.time());
+            },
+          });
+          timeline.to(clock, { value: 16, duration: 16, ease: 'none' }, 0);
+          window.__timelines.cover = timeline;
+        },
+      );
+  </script>
+</template>

@@ -1,0 +1,133 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      background: #f3f6fa;
+      color: #111820;
+    }
+    #root .kicker {
+      color: #263443;
+      font-weight: 650;
+    }
+    #root h2 {
+      font-size: 64px;
+      margin-top: 26px;
+    }
+    #root .number {
+      top: auto;
+      bottom: 42px;
+      color: #536279;
+    }
+    #integration-classification-art {
+      position: absolute;
+      left: 344px;
+      top: 218px;
+      width: 1120px;
+      height: 735px;
+      transform: scale(1.1);
+      transform-origin: 0 0;
+    }
+    #integration-classification-canvas {
+      position: relative;
+      z-index: 0;
+      display: block;
+      width: 1120px;
+      height: 735px;
+    }
+    .art-label {
+      position: absolute;
+      z-index: 2;
+      font-size: 36px;
+      line-height: 1.25;
+      font-weight: 650;
+      color: #4c617b;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+    #integration-label-model {
+      color: #205ed2;
+      font-size: 38px;
+      font-weight: 750;
+    }
+  </style>
+  <div
+    id="root"
+    data-composition-id="integration"
+    data-width="1920"
+    data-height="1080"
+  >
+    <section
+      id="integration-page"
+      class="page clip"
+      data-hold
+      data-start="0"
+      data-duration="16"
+    >
+      <p class="kicker">연구 목적</p><h2>멀티모달 자료로 우울 증상 분류</h2
+      ><span class="number">05</span>
+      <div
+        id="integration-classification-art"
+        role="img"
+        aria-label="자서전적 기억, 음성, 텍스트 정보를 통합하여 두 집단 중 하나로 분류하는 개념 애니메이션"
+      >
+        <!-- Slanted label bounds include transparent corners over the canvas; text is intentionally layered above it. -->
+        <canvas
+          id="integration-classification-canvas"
+          width="1120"
+          height="735"
+        ></canvas>
+        <span
+          class="art-label"
+          data-layout-allow-occlusion
+          id="integration-label-memory"
+          >자서전적 기억</span
+        ><span
+          class="art-label"
+          data-layout-allow-occlusion
+          id="integration-label-voice"
+          >음성</span
+        ><span
+          class="art-label"
+          data-layout-allow-occlusion
+          id="integration-label-language"
+          >텍스트</span
+        ><span
+          class="art-label"
+          data-layout-allow-occlusion
+          id="integration-label-model"
+          >분류 모델</span
+        ><span
+          class="art-label"
+          data-layout-allow-occlusion
+          id="integration-label-low"
+          >우울 증상 낮음</span
+        ><span
+          class="art-label"
+          data-layout-allow-occlusion
+          id="integration-label-high"
+          >우울 증상 높음</span
+        >
+      </div>
+    </section></div
+  >
+  <script>
+    window.__hf = window.__hf || {};
+    window.__hf.buildReady = window.__hf.buildReady || {};
+    window.__hf.buildReady.integration3D =
+      import('./assets/cover/classification-scene.js?v=shared-2').then(
+        ({ initCover }) => {
+          const render = initCover(document, 'integration-');
+          const clock = { value: 0 };
+          const timeline = gsap.timeline({
+            paused: true,
+            onUpdate() {
+              render(this.time());
+            },
+          });
+          timeline.to(clock, { value: 16, duration: 16, ease: 'none' }, 0);
+          window.__timelines.integration = timeline;
+        },
+      );
+  </script>
+</template>

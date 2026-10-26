@@ -1,0 +1,367 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      background: #f3f6fa;
+      color: #111820;
+    }
+    #root .kicker {
+      color: #263443;
+      font-weight: 650;
+    }
+    #root h2 {
+      font-size: 64px;
+      margin-top: 26px;
+    }
+    #root .number {
+      top: auto;
+      bottom: 32px;
+      color: #536279;
+    }
+    .scope-models {
+      position: absolute;
+      left: 988px;
+      top: 278px;
+      width: 232px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 8px;
+      opacity: 0;
+      text-align: center;
+      font-size: 28px;
+      line-height: 1.15;
+      font-weight: 650;
+      color: #263443;
+    }
+    .scope-models span {
+      display: block;
+      padding: 8px 14px;
+      border: 1.5px solid #b5c3d4;
+      border-radius: 8px;
+      background: #fff;
+      white-space: nowrap;
+      box-shadow: 0 3px 0 #d6dfeb;
+      transform-origin: center;
+    }
+    .workflow-node {
+      position: absolute;
+      top: 476px;
+      width: 256px;
+      height: 178px;
+      border: 1.5px solid #b5c3d4;
+      border-radius: 12px;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 16px;
+    }
+    .workflow-node h3 {
+      font-size: 42px;
+      line-height: 1.25;
+      font-weight: 750;
+      letter-spacing: -0.035em;
+    }
+    #wf-eda {
+      left: 112px;
+    }
+    #wf-select {
+      left: 400px;
+    }
+    #wf-tune {
+      left: 688px;
+    }
+    #wf-cv {
+      left: 976px;
+    }
+    #wf-refit {
+      left: 1264px;
+    }
+    #wf-test {
+      left: 1552px;
+      background: #075ddd;
+      border-color: #075ddd;
+      color: #fff;
+    }
+    #wf-tune h3 {
+      font-size: 32px;
+    }
+    .workflow-lines {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    #wf-loop-label {
+      position: absolute;
+      left: 750px;
+      top: 806px;
+      width: 420px;
+      text-align: center;
+      font-size: 34px;
+      font-weight: 650;
+      color: #075ddd;
+    }
+    #wf-review-label {
+      position: absolute;
+      left: 363px;
+      top: 932px;
+      width: 690px;
+      text-align: center;
+      font-size: 34px;
+      font-weight: 650;
+      color: #536279;
+    }
+  </style>
+  <div
+    id="root"
+    data-composition-id="workflow"
+    data-width="1920"
+    data-height="1080"
+  >
+    <section class="page clip" data-start="0" data-duration="11" data-hold>
+      <p class="kicker">연구 방법</p><h2>전체 분석 흐름</h2
+      ><span class="number">08</span>
+      <p id="wf-models" class="scope-models"
+        ><span>SVM</span><span>Random Forest</span><span>XGBoost</span></p
+      >
+      <svg
+        class="workflow-lines"
+        width="1920"
+        height="1080"
+        viewBox="0 0 1920 1080"
+        aria-hidden="true"
+      >
+        <defs>
+          <marker
+            id="wf-arrow"
+            markerUnits="userSpaceOnUse"
+            markerWidth="10"
+            markerHeight="10"
+            refX="8"
+            refY="5"
+            orient="auto"
+          >
+            <path
+              d="M2 2L8 5L2 8"
+              stroke="#7891b0"
+              stroke-width="1.8"
+              fill="none"
+            />
+          </marker>
+          <marker
+            id="wf-blue-arrow"
+            markerUnits="userSpaceOnUse"
+            markerWidth="16"
+            markerHeight="14"
+            refX="12"
+            refY="7"
+            orient="auto"
+          >
+            <path
+              d="M2 2L12 7L2 12"
+              stroke="#075ddd"
+              stroke-width="2.5"
+              fill="none"
+            />
+          </marker>
+        </defs>
+        <g
+          fill="none"
+          stroke="#7891b0"
+          stroke-width="2.5"
+          marker-end="url(#wf-arrow)"
+        >
+          <path id="wf-line-1" d="M374 565H392" />
+          <path id="wf-line-2" d="M662 565H680" />
+          <path id="wf-line-3" d="M950 565H968" />
+          <path id="wf-line-4" d="M1238 565H1256" />
+          <path id="wf-line-5" d="M1526 565H1544" />
+        </g>
+        <path
+          id="wf-loop"
+          d="M1104 662V752Q1104 776 1080 776H840Q816 776 816 752V664"
+          stroke="#075ddd"
+          stroke-width="3"
+          fill="none"
+          marker-end="url(#wf-blue-arrow)"
+        />
+        <g
+          id="wf-review"
+          fill="none"
+          stroke="#7891b0"
+          stroke-width="2.5"
+          stroke-dasharray="9 8"
+          marker-end="url(#wf-arrow)"
+        >
+          <path
+            id="wf-review-path"
+            d="M1176 662V876Q1176 900 1152 900H264Q240 900 240 876V664"
+          />
+          <path id="wf-feature-return" d="M528 900V664" />
+        </g>
+        <circle id="wf-review-pulse" r="6" fill="#536279" />
+        <circle id="wf-feature-pulse" r="6" fill="#536279" />
+        <circle id="wf-pulse" r="7" fill="#075ddd" cx="0" cy="0" />
+      </svg>
+      <div id="wf-eda" class="workflow-node"><h3>EDA</h3></div>
+      <div id="wf-select" class="workflow-node"><h3>특징 선정</h3></div>
+      <div id="wf-tune" class="workflow-node"
+        ><h3>하이퍼파라미터<br />튜닝</h3></div
+      >
+      <div id="wf-cv" class="workflow-node"><h3>교차검증</h3></div>
+      <p id="wf-review-label">EDA · 특징 재검토</p>
+      <p id="wf-loop-label">하이퍼파라미터 수정</p>
+      <div id="wf-refit" class="workflow-node"><h3>최종 학습</h3></div>
+      <div id="wf-test" class="workflow-node"><h3>test 평가</h3></div>
+    </section></div
+  >
+  <script>
+    const workflow = gsap.timeline({ paused: true });
+    function show(id, t) {
+      workflow.fromTo(
+        id,
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' },
+        t,
+      );
+    }
+    function line(id, t, d = 0.4) {
+      const p = document.querySelector(id),
+        len = p.getTotalLength();
+      workflow.fromTo(
+        p,
+        { opacity: 0, strokeDasharray: len, strokeDashoffset: len },
+        { opacity: 1, strokeDashoffset: 0, duration: d, ease: 'none' },
+        t,
+      );
+    }
+    show('#wf-eda', 0.1);
+    line('#wf-line-1', 0.65);
+    show('#wf-select', 0.95);
+    line('#wf-line-2', 1.45);
+    show('#wf-tune', 1.75);
+    line('#wf-line-3', 2.25);
+    show('#wf-cv', 2.55);
+
+    // Reveal above CV, hide during review, then reveal above final fitting and stay.
+    workflow.set('#wf-models', { x: 0, y: 10, opacity: 0 }, 0);
+    workflow.to(
+      '#wf-models',
+      { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' },
+      2.65,
+    );
+    workflow.to(
+      '#wf-models',
+      { opacity: 0, y: -8, duration: 0.3, ease: 'power2.in' },
+      4.05,
+    );
+    workflow.set('#wf-models', { x: 288, y: 10 }, 7.65);
+    workflow.to(
+      '#wf-models',
+      { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' },
+      7.7,
+    );
+    // The same three algorithms are used for CV and final fitting.
+    function activateModels(start, stage) {
+      workflow.to(stage, { borderColor: '#075ddd', duration: 0.08 }, start);
+      document.querySelectorAll('#wf-models span').forEach((model, i) => {
+        const t = start + i * 0.25;
+        workflow.to(
+          model,
+          {
+            backgroundColor: '#075ddd',
+            borderColor: '#075ddd',
+            color: '#fff',
+            y: 3,
+            scale: 0.97,
+            boxShadow: '0 0px 0 #d6dfeb',
+            duration: 0.06,
+            ease: 'power2.in',
+          },
+          t,
+        );
+        workflow.to(
+          model,
+          {
+            y: 0,
+            scale: 1,
+            boxShadow: '0 3px 0 #0447ab',
+            duration: 0.08,
+            ease: 'power2.out',
+          },
+          t + 0.06,
+        );
+        workflow.to(
+          model,
+          {
+            backgroundColor: '#fff',
+            borderColor: '#b5c3d4',
+            color: '#263443',
+            boxShadow: '0 3px 0 #d6dfeb',
+            duration: 0.08,
+            ease: 'power2.out',
+          },
+          t + 0.16,
+        );
+      });
+      workflow.to(
+        stage,
+        { borderColor: '#b5c3d4', duration: 0.1 },
+        start + 0.74,
+      );
+    }
+    activateModels(3.1, '#wf-cv');
+    activateModels(8.2, '#wf-refit');
+    // The inner loop adjusts parameters; the outer loop revisits data/features.
+    function travel(pathId, pulseId, t, d) {
+      const path = document.querySelector(pathId),
+        pulse = document.querySelector(pulseId);
+      const length = path.getTotalLength(),
+        start = path.getPointAtLength(0);
+      workflow.set(pulse, { opacity: 0 }, 0);
+      workflow.set(pulse, { x: start.x, y: start.y, opacity: 1 }, t);
+      for (let i = 1; i <= 60; i++) {
+        const point = path.getPointAtLength((length * i) / 60);
+        workflow.to(
+          pulse,
+          { x: point.x, y: point.y, duration: d / 60, ease: 'none' },
+          t + ((i - 1) * d) / 60,
+        );
+      }
+      workflow.to(pulse, { opacity: 0, duration: 0.12 }, t + d);
+    }
+    line('#wf-loop', 4.1, 1.0);
+    show('#wf-loop-label', 4.1);
+    travel('#wf-loop', '#wf-pulse', 4.1, 1.0);
+    workflow.fromTo(
+      '#wf-tune',
+      { borderColor: '#075ddd' },
+      { borderColor: '#b5c3d4', duration: 0.3, immediateRender: false },
+      5.1,
+    );
+    workflow.fromTo(
+      '#wf-review',
+      { opacity: 0 },
+      { opacity: 1, duration: 0.3 },
+      5.4,
+    );
+    show('#wf-review-label', 5.4);
+    travel('#wf-review-path', '#wf-review-pulse', 5.45, 1.4);
+    travel('#wf-feature-return', '#wf-feature-pulse', 6.45, 0.4);
+    workflow.fromTo(
+      '#wf-eda, #wf-select',
+      { borderColor: '#536279' },
+      { borderColor: '#b5c3d4', duration: 0.3, immediateRender: false },
+      6.85,
+    );
+    line('#wf-line-4', 7.25, 0.4);
+    show('#wf-refit', 7.65);
+    line('#wf-line-5', 9.3);
+    show('#wf-test', 9.7);
+    window.__timelines.workflow = workflow;
+  </script>
+</template>

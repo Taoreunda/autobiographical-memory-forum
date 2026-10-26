@@ -1,0 +1,314 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      background: #f3f6fa;
+      color: #111820;
+    }
+    #root .kicker {
+      color: #263443;
+      font-weight: 650;
+    }
+    #root h2 {
+      font-size: 64px;
+      margin-top: 26px;
+    }
+    #root .number {
+      top: auto;
+      bottom: 24px;
+      color: #536279;
+    }
+    .flow-node {
+      position: absolute;
+      width: 816px;
+      height: 128px;
+      border: 1.5px solid #b5c3d4;
+      border-radius: 8px;
+      background: #fff;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 180px;
+      column-gap: 24px;
+      align-items: center;
+      padding: 16px 28px;
+      letter-spacing: -0.025em;
+    }
+    .flow-copy {
+      min-width: 0;
+      text-align: left;
+    }
+    .flow-title {
+      font-size: 40px;
+      line-height: 1.2;
+      font-weight: 550;
+      white-space: nowrap;
+    }
+    .flow-detail {
+      font-size: 32px;
+      line-height: 1.2;
+      color: #4c617b;
+      font-weight: 450;
+      margin-top: 8px;
+    }
+    .flow-count {
+      font-size: 64px;
+      line-height: 1;
+      font-weight: 750;
+      letter-spacing: -0.025em;
+      text-align: right;
+      white-space: nowrap;
+      font-variant-numeric: tabular-nums;
+    }
+    .flow-count span {
+      font-size: 32px;
+      font-weight: 500;
+      margin-left: 8px;
+    }
+    .flow-no-count .flow-copy {
+      grid-column: 1 / -1;
+    }
+    .flow-left {
+      left: 112px;
+    }
+    .flow-right {
+      left: 992px;
+    }
+    #cohort-original {
+      left: 112px;
+      top: 226px;
+      width: 1696px;
+      height: 88px;
+      grid-template-columns: minmax(0, 1fr) 240px;
+    }
+    #cohort-high,
+    #cohort-low {
+      top: 350px;
+    }
+    #cohort-available,
+    #cohort-sampling {
+      top: 510px;
+    }
+    #cohort-eligible,
+    #cohort-matching {
+      top: 670px;
+    }
+    .flow-final {
+      top: 830px;
+      background: #e7effb;
+      border-color: #83a5d3;
+    }
+    .flow-final .flow-count {
+      color: #075ddd;
+    }
+    #cohort-final {
+      position: absolute;
+      left: 640px;
+      top: 992px;
+      width: 640px;
+      display: flex;
+      justify-content: center;
+      align-items: baseline;
+      gap: 32px;
+      background: #f3f6fa;
+    }
+    #cohort-final .flow-title {
+      color: #111820;
+    }
+    #cohort-final .flow-count {
+      color: #075ddd;
+    }
+    .flow-link {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    #root .source {
+      font-size: 28px;
+      bottom: 24px;
+      color: #536279;
+      max-width: 620px;
+    }
+  </style>
+  <div
+    id="root"
+    data-composition-id="cohort"
+    data-width="1920"
+    data-height="1080"
+  >
+    <section
+      id="cohort-page"
+      class="page clip"
+      data-hold
+      data-start="0"
+      data-duration="7"
+    >
+      <p class="kicker">연구 방법</p><h2>연구 대상 선정</h2
+      ><span class="number">06</span>
+      <svg
+        class="flow-link"
+        width="1920"
+        height="1080"
+        viewBox="0 0 1920 1080"
+        aria-hidden="true"
+      >
+        <defs>
+          <marker
+            id="cohort-arrow"
+            markerUnits="userSpaceOnUse"
+            markerWidth="14"
+            markerHeight="12"
+            refX="11"
+            refY="6"
+            orient="auto"
+          >
+            <path
+              d="M2 2L11 6L2 10"
+              fill="none"
+              stroke="#748ba6"
+              stroke-width="1.5"
+            />
+          </marker>
+        </defs>
+        <g
+          fill="none"
+          stroke="#748ba6"
+          stroke-width="2.5"
+          marker-end="url(#cohort-arrow)"
+        >
+          <g id="cohort-split">
+            <path d="M960 314V332H520V344" />
+            <path d="M960 332H1400V344" />
+          </g>
+          <path id="cohort-link2" d="M520 478V504" />
+          <path id="cohort-link3" d="M520 638V664" />
+          <path id="cohort-sampling-link" d="M1400 478V504" />
+          <path id="cohort-matching-link" d="M1400 638V664" />
+          <path id="cohort-low-link" d="M1400 798V824" />
+          <path id="cohort-high-link" d="M520 798V824" />
+          <path
+            id="cohort-final-link"
+            d="M520 958V977H1400V958 M960 977V990"
+            marker-end="none"
+          />
+        </g>
+      </svg>
+      <div id="cohort-original" class="flow-node"
+        ><div class="flow-copy"
+          ><div class="flow-title"
+            >고령자 근현대 경험 기반 스토리 구술 데이터</div
+          ></div
+        ><div class="flow-count">5,833<span>명</span></div></div
+      >
+      <div id="cohort-high" class="flow-node flow-left"
+        ><div class="flow-copy"
+          ><div class="flow-title">우울 증상 높음</div
+          ><div class="flow-detail">MHS:D-2 4점 이상</div></div
+        ><div class="flow-count">367<span>명</span></div></div
+      >
+      <div id="cohort-low" class="flow-node flow-right flow-no-count"
+        ><div class="flow-copy"
+          ><div class="flow-title">우울 증상 낮음</div
+          ><div class="flow-detail">MHS:D-2 4점 미만</div></div
+        ></div
+      >
+      <div id="cohort-available" class="flow-node flow-left"
+        ><div class="flow-copy"
+          ><div class="flow-title">결과·파일 누락</div
+          ><div class="flow-detail">40명 제외</div></div
+        ><div class="flow-count">327<span>명</span></div></div
+      >
+      <div id="cohort-sampling" class="flow-node flow-right flow-no-count"
+        ><div class="flow-copy"
+          ><div class="flow-title">무작위 언더샘플링</div
+          ><div class="flow-detail">원자료의 분석 가능 자료</div></div
+        ></div
+      >
+      <div id="cohort-eligible" class="flow-node flow-left"
+        ><div class="flow-copy"
+          ><div class="flow-title">실시 키워드 2건 미만</div
+          ><div class="flow-detail">57명 제외</div></div
+        ><div class="flow-count">270<span>명</span></div></div
+      >
+      <div id="cohort-matching" class="flow-node flow-right"
+        ><div class="flow-copy"
+          ><div class="flow-title">높음 집단과 동일 인원</div></div
+        ><div class="flow-count">270<span>명</span></div></div
+      >
+      <div id="cohort-high-final" class="flow-node flow-final flow-left"
+        ><div class="flow-copy"
+          ><div class="flow-title">우울 증상 높음</div
+          ><div class="flow-detail">1:1 균형화 · 4명 무작위 제외</div></div
+        ><div class="flow-count">266<span>명</span></div></div
+      >
+      <div id="cohort-low-final" class="flow-node flow-final flow-right"
+        ><div class="flow-copy"
+          ><div class="flow-title">우울 증상 낮음</div
+          ><div class="flow-detail">발화 수 0회 · 4명 제외</div></div
+        ><div class="flow-count">266<span>명</span></div></div
+      >
+      <div id="cohort-final"
+        ><div class="flow-title">최종 분석</div
+        ><div class="flow-count">532<span>명</span></div></div
+      >
+      <p class="source">자료: AI Hub</p>
+    </section></div
+  >
+  <script>
+    const cohort = gsap.timeline({ paused: true });
+    function box(id, time) {
+      cohort.fromTo(
+        id,
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' },
+        time,
+      );
+      if (document.querySelector(id + ' .flow-count'))
+        cohort.fromTo(
+          id + ' .flow-count',
+          { opacity: 0, y: 8 },
+          { opacity: 1, y: 0, duration: 0.35, ease: 'power2.out' },
+          time + 0.12,
+        );
+    }
+    function line(id, time) {
+      const e = document.querySelector(id);
+      const paths =
+        e.tagName.toLowerCase() === 'path'
+          ? [e]
+          : [...e.querySelectorAll('path')];
+      paths.forEach((p) => {
+        const length = p.getTotalLength();
+        cohort.fromTo(
+          p,
+          { opacity: 0, strokeDasharray: length, strokeDashoffset: length },
+          {
+            opacity: 1,
+            strokeDashoffset: 0,
+            duration: 0.4,
+            ease: 'power2.out',
+          },
+          time,
+        );
+      });
+    }
+    box('#cohort-original', 0.1);
+    line('#cohort-split', 0.5);
+    box('#cohort-high', 0.8);
+    box('#cohort-low', 0.8);
+    line('#cohort-link2', 1.3);
+    box('#cohort-available', 1.65);
+    line('#cohort-link3', 2.15);
+    box('#cohort-eligible', 2.5);
+    line('#cohort-sampling-link', 3.35);
+    box('#cohort-sampling', 3.65);
+    line('#cohort-matching-link', 4.05);
+    box('#cohort-matching', 4.35);
+    line('#cohort-low-link', 4.75);
+    box('#cohort-low-final', 5.05);
+    line('#cohort-high-link', 5.35);
+    box('#cohort-high-final', 5.6);
+    line('#cohort-final-link', 6);
+    box('#cohort-final', 6.25);
+    window.__timelines.cohort = cohort;
+  </script>
+</template>

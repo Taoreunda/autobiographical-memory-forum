@@ -1,0 +1,262 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      background: #f3f6fa;
+      color: #111820;
+    }
+    #root .kicker {
+      color: #263443;
+      font-weight: 650;
+    }
+    #root h2 {
+      font-size: 64px;
+      margin-top: 26px;
+    }
+    #root .number {
+      top: auto;
+      bottom: 32px;
+      color: #536279;
+    }
+    .feature-lane {
+      position: absolute;
+      left: 112px;
+      width: 1280px;
+      height: 190px;
+      background: #e9eff7;
+      border-radius: 12px;
+    }
+    #features-memory {
+      top: 280px;
+    }
+    #features-voice {
+      top: 510px;
+    }
+    #features-text {
+      top: 740px;
+    }
+    .feature-heading {
+      position: absolute;
+      left: 32px;
+      top: 24px;
+      width: 300px;
+    }
+    .feature-heading h3 {
+      font-size: 44px;
+      line-height: 1.2;
+      font-weight: 650;
+      letter-spacing: -0.025em;
+    }
+    .feature-heading p {
+      font-size: 30px;
+      line-height: 1.3;
+      font-weight: 450;
+      color: #4c617b;
+      margin-top: 18px;
+    }
+    .feature-item {
+      position: absolute;
+      z-index: 1;
+      top: 55px;
+      width: 264px;
+      text-align: center;
+    }
+    .feature-item:nth-of-type(2) {
+      left: 316px;
+    }
+    .feature-item:nth-of-type(3) {
+      left: 596px;
+    }
+    .feature-item:nth-of-type(4) {
+      left: 876px;
+    }
+    .feature-dot {
+      display: block;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #075ddd;
+      margin: 8px auto 24px;
+    }
+    .feature-label {
+      font-size: 36px;
+      line-height: 1.2;
+      font-weight: 550;
+      letter-spacing: -0.025em;
+      white-space: nowrap;
+    }
+    .feature-lines {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    #features-total {
+      position: absolute;
+      left: 1494px;
+      top: 426px;
+      width: 308px;
+      height: 308px;
+      border-radius: 50%;
+      background: #075ddd;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+    }
+    #features-total .count {
+      font-size: 116px;
+      line-height: 1.05;
+      font-weight: 750;
+      font-variant-numeric: tabular-nums;
+    }
+    #features-total .label {
+      font-size: 40px;
+      line-height: 1.2;
+      font-weight: 550;
+      margin-top: 14px;
+    }
+    #root .source {
+      font-size: 28px;
+      bottom: 32px;
+      color: #536279;
+    }
+  </style>
+  <div
+    id="root"
+    data-composition-id="features"
+    data-width="1920"
+    data-height="1080"
+  >
+    <section class="page clip" data-start="0" data-duration="5" data-hold>
+      <p class="kicker">연구 방법</p><h2>특징 추출</h2
+      ><span class="number">07</span>
+      <div id="features-memory" class="feature-lane">
+        <div class="feature-heading"
+          ><h3>자서전적 기억</h3><p>원본 라벨링</p></div
+        >
+        <div class="feature-item"
+          ><span class="feature-dot"></span
+          ><p class="feature-label">사건 구체성</p></div
+        >
+        <div class="feature-item"
+          ><span class="feature-dot"></span
+          ><p class="feature-label">상태 정보</p></div
+        >
+        <div class="feature-item"
+          ><span class="feature-dot"></span
+          ><p class="feature-label">면담자의<br />질문·공감</p></div
+        >
+      </div>
+      <div id="features-voice" class="feature-lane">
+        <div class="feature-heading"><h3>음성</h3><p>음성 파일</p></div>
+        <div class="feature-item"
+          ><span class="feature-dot"></span
+          ><p class="feature-label">피치·음질</p></div
+        >
+        <div class="feature-item"
+          ><span class="feature-dot"></span
+          ><p class="feature-label">MFCC·포먼트</p></div
+        >
+        <div class="feature-item"
+          ><span class="feature-dot"></span
+          ><p class="feature-label">스펙트럼</p></div
+        >
+      </div>
+      <div id="features-text" class="feature-lane">
+        <div class="feature-heading"
+          ><h3>텍스트</h3><p>전사문·시간 정보</p></div
+        >
+        <div class="feature-item"
+          ><span class="feature-dot"></span
+          ><p class="feature-label">어휘 다양성</p></div
+        >
+        <div class="feature-item"
+          ><span class="feature-dot"></span
+          ><p class="feature-label">품사 비율</p></div
+        >
+        <div class="feature-item"
+          ><span class="feature-dot"></span
+          ><p class="feature-label">발화 속도·<br />응답 지연</p></div
+        >
+      </div>
+      <svg
+        class="feature-lines"
+        viewBox="0 0 1920 1080"
+        width="1920"
+        height="1080"
+        aria-hidden="true"
+      >
+        <g stroke="#93a8c2" stroke-width="2.5" fill="none">
+          <path id="features-memory-line" d="M480 350H1330" />
+          <path id="features-voice-line" d="M480 580H1330" />
+          <path id="features-text-line" d="M480 810H1330" />
+        </g>
+        <g stroke="#93a8c2" stroke-width="2.5" fill="none">
+          <path id="features-memory-out" d="M1330 350H1420" />
+          <path id="features-voice-out" d="M1330 580H1420" />
+          <path id="features-text-out" d="M1330 810H1420" />
+          <path id="features-join-top" d="M1420 350V580" />
+          <path id="features-join-bottom" d="M1420 810V580" />
+          <path id="features-join-end" d="M1420 580H1494" />
+        </g>
+      </svg>
+      <div id="features-total"
+        ><span class="count">99</span><span class="label">개 특징</span></div
+      >
+      <p class="source">각 범주의 대표 특징 예시</p>
+    </section></div
+  >
+  <script>
+    const features = gsap.timeline({ paused: true });
+    // All three rows advance together at a constant 400 canvas pixels/second.
+    const speed = 400;
+    function draw(id, time) {
+      const e = document.querySelector(id),
+        length = e.getTotalLength();
+      features.fromTo(
+        e,
+        { opacity: 0, strokeDasharray: length, strokeDashoffset: length },
+        {
+          opacity: 1,
+          strokeDashoffset: 0,
+          duration: length / speed,
+          ease: 'none',
+        },
+        time,
+      );
+    }
+    for (const name of ['memory', 'voice', 'text']) {
+      const id = '#features-' + name;
+      features.fromTo(id, { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.1);
+      features.fromTo(
+        id + ' .feature-heading',
+        { opacity: 0, x: -12 },
+        { opacity: 1, x: 0, duration: 0.35, ease: 'none' },
+        0.1,
+      );
+      draw(id + '-line', 0.55);
+      document.querySelectorAll(id + ' .feature-item').forEach((item, i) => {
+        const arrival = 0.55 + (80 + i * 280) / speed;
+        features.fromTo(
+          item,
+          { opacity: 0, x: -8 },
+          { opacity: 1, x: 0, duration: 0.3, ease: 'none' },
+          arrival,
+        );
+      });
+      draw(id + '-out', 0.55 + 850 / speed);
+    }
+    draw('#features-join-top', 2.9);
+    draw('#features-join-bottom', 2.9);
+    draw('#features-join-end', 3.475);
+    features.fromTo(
+      '#features-total',
+      { opacity: 0, scale: 0.94 },
+      { opacity: 1, scale: 1, duration: 0.5, ease: 'power2.out' },
+      3.7,
+    );
+    window.__timelines.features = features;
+  </script>
+</template>

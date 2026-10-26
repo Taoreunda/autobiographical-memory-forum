@@ -1,0 +1,166 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+    }
+    /* This deck's active style: the cover is the visual reference. */
+    #root {
+      background: #f3f6fa;
+      color: #111820;
+    }
+    #screening-page {
+      padding: 0;
+    }
+    #root .kicker {
+      position: absolute;
+      left: 112px;
+      top: 84px;
+      font-size: 28px;
+      font-weight: 650;
+      color: #263443;
+    }
+    #root .number {
+      top: auto;
+      bottom: 42px;
+      color: #536279;
+    }
+    #root h2 {
+      position: absolute;
+      left: 112px;
+      top: 212px;
+      margin: 0;
+      font-size: 72px;
+      line-height: 1.3;
+      letter-spacing: -0.035em;
+      font-weight: 750;
+    }
+    #screening-art {
+      position: absolute;
+      left: 780px;
+      top: 155px;
+      width: 1040px;
+      height: 760px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px 28px;
+    }
+    .screening-illustrations figure {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 12px;
+    }
+    .screening-illustrations img {
+      display: block;
+      width: 420px;
+      height: 300px;
+      object-fit: contain;
+    }
+    .screening-illustrations figcaption {
+      font-size: 38px;
+      line-height: 1.3;
+      font-weight: 650;
+      color: #4c617b;
+      white-space: nowrap;
+    }
+    #screening-conclusion {
+      position: absolute;
+      left: 112px;
+      top: 646px;
+      font-size: 86px;
+      font-weight: 780;
+      line-height: 1.22;
+      letter-spacing: -0.035em;
+      color: #075ddd;
+    }
+    .screening-conclusion-line {
+      display: block;
+    }
+    #root .source {
+      font-size: 28px;
+      bottom: 42px;
+      color: #536279;
+    }
+  </style>
+  <div
+    id="root"
+    data-composition-id="screening"
+    data-width="1920"
+    data-height="1080"
+  >
+    <section
+      id="screening-page"
+      class="page clip"
+      data-hold
+      data-start="0"
+      data-duration="6"
+    >
+      <p class="kicker">연구 배경</p><span class="number">02</span>
+      <h2>우울 조기 선별의<br />필요성</h2>
+      <div id="screening-art" class="screening-illustrations">
+        <figure
+          ><img
+            src="assets/screening/daily-function.png"
+            alt="노트북 앞에서 지쳐 있는 인물"
+          /><figcaption>일상 기능 저하</figcaption></figure
+        >
+        <figure
+          ><img
+            src="assets/screening/physical-health-v2.png"
+            alt="침대에 누워 이마에 수건을 얹고 감기 몸살로 쉬는 인물"
+          /><figcaption>신체 건강 악화</figcaption></figure
+        >
+        <figure
+          ><img
+            src="assets/screening/psychological-crisis.png"
+            alt="심리적 위기를 겪는 인물"
+          /><figcaption>자살 위험</figcaption></figure
+        >
+        <figure
+          ><img
+            src="assets/screening/socioeconomic-burden-v2.png"
+            alt="빈 지갑과 지폐, 동전, 청구서를 보며 경제적 부담을 느끼는 인물"
+          /><figcaption>사회경제적 부담</figcaption></figure
+        >
+      </div>
+      <p id="screening-conclusion"
+        ><span class="screening-conclusion-line">조기 발견과</span
+        ><span class="screening-conclusion-line">적절한 개입</span></p
+      >
+      <p class="source"
+        >Kaywan et al., 2023; Shin et al., 2020 · 일러스트: AI 생성</p
+      >
+    </section>
+  </div>
+  <script>
+    const screening = gsap.timeline({ paused: true });
+    // Illustrations arrive in reading order, then the conclusion follows automatically.
+    [...document.querySelectorAll('#screening-art figure')].forEach(
+      (figure, i) => {
+        const at = 0.08 + i * 0.36;
+        screening.fromTo(
+          figure.querySelector('img'),
+          { opacity: 0, y: 24 },
+          { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' },
+          at,
+        );
+        screening.fromTo(
+          figure.querySelector('figcaption'),
+          { opacity: 0, y: 8 },
+          { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' },
+          at + 0.21,
+        );
+      },
+    );
+    // Continue automatically after the images have settled.
+    screening.fromTo(
+      '.screening-conclusion-line',
+      { opacity: 0, x: -16 },
+      { opacity: 1, x: 0, duration: 0.6, ease: 'power3.out' },
+      2.2,
+    );
+    window.__timelines.screening = screening;
+  </script>
+</template>

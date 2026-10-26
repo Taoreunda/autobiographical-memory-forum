@@ -1,0 +1,135 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      background: #f3f6fa;
+      color: #111820;
+    }
+    #root .kicker {
+      color: #263443;
+      font-weight: 650;
+    }
+    #root h2 {
+      font-size: 64px;
+      margin-top: 26px;
+    }
+    #root .number {
+      top: auto;
+      bottom: 32px;
+      color: #536279;
+    }
+    .limit-row {
+      position: absolute;
+      left: 112px;
+      width: 1696px;
+      height: 114px;
+      display: grid;
+      grid-template-columns: 525px 1fr;
+      align-items: center;
+      border-bottom: 1.5px solid #cdd7e3;
+    }
+    #limit-screening {
+      top: 280px;
+    }
+    #limit-balance {
+      top: 408px;
+    }
+    #limit-external {
+      top: 536px;
+    }
+    #limit-crosssectional {
+      top: 664px;
+    }
+    .limit-name {
+      font-size: 42px;
+      font-weight: 650;
+      letter-spacing: -0.025em;
+    }
+    .limit-description {
+      font-size: 40px;
+      font-weight: 450;
+      letter-spacing: -0.025em;
+      line-height: 1.35;
+    }
+    #future-directions {
+      position: absolute;
+      left: 112px;
+      top: 843px;
+      width: 1696px;
+    }
+    #future-directions h3 {
+      font-size: 30px;
+      font-weight: 600;
+      color: #4c617b;
+      margin-bottom: 24px;
+    }
+    #future-directions p {
+      font-size: 42px;
+      font-weight: 650;
+      color: #075ddd;
+      letter-spacing: -0.025em;
+      line-height: 1.45;
+    }
+  </style>
+  <div
+    id="root"
+    data-composition-id="outlook"
+    data-width="1920"
+    data-height="1080"
+  >
+    <section class="page clip" data-start="0" data-duration="5" data-hold>
+      <p class="kicker">논의</p><h2>한계와 향후 과제</h2
+      ><span class="number">15</span>
+      <div id="limit-screening" class="limit-row"
+        ><p class="limit-name">MHS:D-2 집단 구분</p
+        ><p class="limit-description"
+          >2문항 자기보고 선별도구 · 진단 아님</p
+        ></div
+      >
+      <div id="limit-balance" class="limit-row"
+        ><p class="limit-name">1:1 균형 표본</p
+        ><p class="limit-description"
+          >실제 환경에서 양성예측도가 달라질 수 있음</p
+        ></div
+      >
+      <div id="limit-external" class="limit-row"
+        ><p class="limit-name">외부 검증 부재</p
+        ><p class="limit-description"
+          >다른 표본에서의 일반화 가능성 미확인</p
+        ></div
+      >
+      <div id="limit-crosssectional" class="limit-row"
+        ><p class="limit-name">횡단 자료</p
+        ><p class="limit-description">인과관계 확인의 한계</p></div
+      >
+      <div id="future-directions"
+        ><h3>향후 과제</h3
+        ><p>다양한 연령에서 검증 · 영상 기반 비언어 행동 특징 통합</p></div
+      >
+    </section></div
+  >
+  <script>
+    const timeline = gsap.timeline({ paused: true });
+    for (const [i, id] of [
+      'screening',
+      'balance',
+      'external',
+      'crosssectional',
+    ].entries()) {
+      timeline.fromTo(
+        '#limit-' + id,
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' },
+        0.4 + i * 0.7,
+      );
+    }
+    timeline.fromTo(
+      '#future-directions',
+      { opacity: 0, y: 12 },
+      { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' },
+      3.45,
+    );
+    window.__timelines.outlook = timeline;
+  </script></template
+>

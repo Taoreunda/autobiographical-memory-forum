@@ -1,0 +1,615 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      background: #f3f6fa;
+      color: #111820;
+    }
+    #root .kicker {
+      color: #263443;
+      font-weight: 650;
+    }
+    #root h2 {
+      font-size: 64px;
+      margin-top: 26px;
+    }
+    #root .number {
+      top: auto;
+      bottom: 32px;
+      color: #536279;
+    }
+    #whole-label {
+      position: absolute;
+      left: 180px;
+      top: 284px;
+      width: 1560px;
+      text-align: center;
+      font-size: 44px;
+      font-weight: 650;
+    }
+    #whole-label strong,
+    .dataset-label strong {
+      font-size: 60px;
+      margin-left: 20px;
+      color: #075ddd;
+    }
+    #whole-outline {
+      position: absolute;
+      left: 180px;
+      top: 380px;
+      width: 1560px;
+      height: 520px;
+      border: 2px solid #a8bad1;
+      border-radius: 16px;
+      pointer-events: none;
+    }
+    .dataset-block {
+      position: absolute;
+      top: 380px;
+      height: 520px;
+      background: #e2ebf7;
+      border: 2px solid transparent;
+      transform-origin: 0 0;
+    }
+    #split-train {
+      left: 112px;
+      width: 1160px;
+      border-radius: 16px 0 0 16px;
+    }
+    #split-test {
+      left: 1408px;
+      width: 400px;
+      border-radius: 0 16px 16px 0;
+    }
+    .dataset-label {
+      position: absolute;
+      top: 284px;
+      font-size: 44px;
+      font-weight: 650;
+      text-align: center;
+      white-space: nowrap;
+    }
+    #train-label {
+      left: 112px;
+      width: 1160px;
+    }
+    #test-label {
+      left: 1408px;
+      width: 400px;
+    }
+    .subject {
+      position: absolute;
+      width: 100px;
+      height: 110px;
+      background: #fff;
+      border: 1.5px solid #b2c5df;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      color: #567395;
+      transform-origin: center;
+    }
+    .records {
+      display: flex;
+      gap: 5px;
+    }
+    .records i {
+      display: block;
+      width: 12px;
+      height: 15px;
+      border-radius: 2px;
+      background: #92afd4;
+    }
+    #cv-panel {
+      position: absolute;
+      inset: 0;
+    }
+    .fold-title {
+      position: absolute;
+      left: 34px;
+      top: 28px;
+      font-size: 44px;
+      font-weight: 700;
+    }
+    .cv-row {
+      position: absolute;
+      left: 32px;
+      width: 1092px;
+      display: grid;
+      grid-template-columns: 64px repeat(5, 1fr);
+      gap: 12px;
+      align-items: center;
+      height: 54px;
+    }
+    .round {
+      font-size: 28px;
+      color: #4c617b;
+      font-weight: 550;
+    }
+    .fold-cell {
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #cbd9ec;
+      border-radius: 7px;
+      color: #344b68;
+      font-size: 29px;
+      font-weight: 550;
+    }
+    .validation {
+      background: #075ddd;
+      color: #fff;
+    }
+    #tuning-state,
+    #selected-setting {
+      position: absolute;
+      left: 72px;
+      top: 446px;
+      width: 1012px;
+      height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 22px;
+      font-size: 36px;
+      font-weight: 650;
+      color: #075ddd;
+    }
+    #tuning-state svg {
+      width: 72px;
+      height: 50px;
+      flex: none;
+    }
+    #selected-setting svg {
+      width: 38px;
+      height: 38px;
+      flex: none;
+    }
+    #model-card {
+      position: absolute;
+      left: 300px;
+      top: 200px;
+      width: 560px;
+      height: 180px;
+      border-radius: 16px;
+      background: #075ddd;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+    }
+    #model-card h3 {
+      font-size: 48px;
+      font-weight: 700;
+    }
+    #model-card p {
+      font-size: 34px;
+      font-weight: 550;
+    }
+    #test-status {
+      position: absolute;
+      left: 32px;
+      top: 448px;
+      width: 332px;
+      text-align: center;
+      font-size: 40px;
+      font-weight: 650;
+      color: #075ddd;
+    }
+    .lines {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    #root .source {
+      bottom: 28px;
+      font-size: 28px;
+    }
+  </style>
+  <div
+    id="root"
+    data-composition-id="crossvalidation"
+    data-width="1920"
+    data-height="1080"
+  >
+    <section class="page clip" data-start="0" data-duration="20" data-hold>
+      <p class="kicker">연구 방법</p><h2>분할부터 최종 평가까지</h2
+      ><span class="number">09</span>
+      <p id="whole-label">전체 자료 <strong>532명</strong></p>
+      <p id="train-label" class="dataset-label">train <strong>424명</strong></p>
+      <p id="test-label" class="dataset-label">test <strong>108명</strong></p>
+      <div id="split-train" class="dataset-block">
+        <div id="train-subjects"
+          ><div class="subject" style="left: 40px; top: 130px"
+            ><svg width="36" height="42" viewBox="0 0 40 46" aria-hidden="true">
+              <circle cx="20" cy="11" r="9" fill="currentColor" />
+              <path d="M5 42v-8a15 15 0 0 1 30 0v8Z" fill="currentColor" /></svg
+            ><div class="records"><i></i><i></i><i></i></div
+          ></div>
+          <div class="subject" style="left: 176px; top: 130px"
+            ><svg width="36" height="42" viewBox="0 0 40 46" aria-hidden="true">
+              <circle cx="20" cy="11" r="9" fill="currentColor" />
+              <path d="M5 42v-8a15 15 0 0 1 30 0v8Z" fill="currentColor" /></svg
+            ><div class="records"><i></i><i></i><i></i></div
+          ></div>
+          <div class="subject" style="left: 312px; top: 130px"
+            ><svg width="36" height="42" viewBox="0 0 40 46" aria-hidden="true">
+              <circle cx="20" cy="11" r="9" fill="currentColor" />
+              <path d="M5 42v-8a15 15 0 0 1 30 0v8Z" fill="currentColor" /></svg
+            ><div class="records"><i></i><i></i><i></i></div
+          ></div>
+          <div class="subject" style="left: 448px; top: 130px"
+            ><svg width="36" height="42" viewBox="0 0 40 46" aria-hidden="true">
+              <circle cx="20" cy="11" r="9" fill="currentColor" />
+              <path d="M5 42v-8a15 15 0 0 1 30 0v8Z" fill="currentColor" /></svg
+            ><div class="records"><i></i><i></i><i></i></div
+          ></div>
+          <div class="subject" style="left: 584px; top: 130px"
+            ><svg width="36" height="42" viewBox="0 0 40 46" aria-hidden="true">
+              <circle cx="20" cy="11" r="9" fill="currentColor" />
+              <path d="M5 42v-8a15 15 0 0 1 30 0v8Z" fill="currentColor" /></svg
+            ><div class="records"><i></i><i></i><i></i></div
+          ></div>
+          <div class="subject" style="left: 720px; top: 130px"
+            ><svg width="36" height="42" viewBox="0 0 40 46" aria-hidden="true">
+              <circle cx="20" cy="11" r="9" fill="currentColor" />
+              <path d="M5 42v-8a15 15 0 0 1 30 0v8Z" fill="currentColor" /></svg
+            ><div class="records"><i></i><i></i><i></i></div
+          ></div>
+          <div class="subject" style="left: 856px; top: 130px"
+            ><svg width="36" height="42" viewBox="0 0 40 46" aria-hidden="true">
+              <circle cx="20" cy="11" r="9" fill="currentColor" />
+              <path d="M5 42v-8a15 15 0 0 1 30 0v8Z" fill="currentColor" /></svg
+            ><div class="records"><i></i><i></i><i></i></div
+          ></div>
+          <div class="subject" style="left: 992px; top: 130px"
+            ><svg width="36" height="42" viewBox="0 0 40 46" aria-hidden="true">
+              <circle cx="20" cy="11" r="9" fill="currentColor" />
+              <path d="M5 42v-8a15 15 0 0 1 30 0v8Z" fill="currentColor" /></svg
+            ><div class="records"><i></i><i></i><i></i></div
+          ></div>
+          <div class="subject" style="left: 40px; top: 320px"
+            ><svg width="36" height="42" viewBox="0 0 40 46" aria-hidden="true">
+              <circle cx="20" cy="11" r="9" fill="currentColor" />
+              <path d="M5 42v-8a15 15 0 0 1 30 0v8Z" fill="currentColor" /></svg
+            ><div class="records"><i></i><i></i><i></i></div
+          ></div>
+          <div class="subject" style="left: 176px; top: 320px"
+            ><svg width="36" height="42" viewBox="0 0 40 46" aria-hidden="true">
+              <circle cx="20" cy="11" r="9" fill="currentColor" />
+              <path d="M5 42v-8a15 15 0 0 1 30 0v8Z" fill="currentColor" /></svg
+            ><div class="records"><i></i><i></i><i></i></div
+          ></div>
+          <div class="subject" style="left: 312px; top: 320px"
+            ><svg width="36" height="42" viewBox="0 0 40 46" aria-hidden="true">
+              <circle cx="20" cy="11" r="9" fill="currentColor" />
+              <path d="M5 42v-8a15 15 0 0 1 30 0v8Z" fill="currentColor" /></svg
+            ><div class="records"><i></i><i></i><i></i></div
+          ></div>
+          <div class="subject" style="left: 448px; top: 320px"
+            ><svg width="36" height="42" viewBox="0 0 40 46" aria-hidden="true">
+              <circle cx="20" cy="11" r="9" fill="currentColor" />
+              <path d="M5 42v-8a15 15 0 0 1 30 0v8Z" fill="currentColor" /></svg
+            ><div class="records"><i></i><i></i><i></i></div
+          ></div>
+          <div class="subject" style="left: 584px; top: 320px"
+            ><svg width="36" height="42" viewBox="0 0 40 46" aria-hidden="true">
+              <circle cx="20" cy="11" r="9" fill="currentColor" />
+              <path d="M5 42v-8a15 15 0 0 1 30 0v8Z" fill="currentColor" /></svg
+            ><div class="records"><i></i><i></i><i></i></div
+          ></div>
+          <div class="subject" style="left: 720px; top: 320px"
+            ><svg width="36" height="42" viewBox="0 0 40 46" aria-hidden="true">
+              <circle cx="20" cy="11" r="9" fill="currentColor" />
+              <path d="M5 42v-8a15 15 0 0 1 30 0v8Z" fill="currentColor" /></svg
+            ><div class="records"><i></i><i></i><i></i></div
+          ></div>
+          <div class="subject" style="left: 856px; top: 320px"
+            ><svg width="36" height="42" viewBox="0 0 40 46" aria-hidden="true">
+              <circle cx="20" cy="11" r="9" fill="currentColor" />
+              <path d="M5 42v-8a15 15 0 0 1 30 0v8Z" fill="currentColor" /></svg
+            ><div class="records"><i></i><i></i><i></i></div
+          ></div>
+          <div class="subject" style="left: 992px; top: 320px"
+            ><svg width="36" height="42" viewBox="0 0 40 46" aria-hidden="true">
+              <circle cx="20" cy="11" r="9" fill="currentColor" />
+              <path d="M5 42v-8a15 15 0 0 1 30 0v8Z" fill="currentColor" /></svg
+            ><div class="records"><i></i><i></i><i></i></div></div
+        ></div>
+        <div id="cv-panel"
+          ><h3 class="fold-title">5-fold 교차검증</h3
+          ><div id="cv-row-1" class="cv-row" style="top: 110px"
+            ><span class="round">1회</span
+            ><span class="fold-cell validation">validation</span
+            ><span class="fold-cell">train</span
+            ><span class="fold-cell">train</span
+            ><span class="fold-cell">train</span
+            ><span class="fold-cell">train</span></div
+          >
+          <div id="cv-row-2" class="cv-row" style="top: 176px"
+            ><span class="round">2회</span><span class="fold-cell">train</span
+            ><span class="fold-cell validation">validation</span
+            ><span class="fold-cell">train</span
+            ><span class="fold-cell">train</span
+            ><span class="fold-cell">train</span></div
+          >
+          <div id="cv-row-3" class="cv-row" style="top: 242px"
+            ><span class="round">3회</span><span class="fold-cell">train</span
+            ><span class="fold-cell">train</span
+            ><span class="fold-cell validation">validation</span
+            ><span class="fold-cell">train</span
+            ><span class="fold-cell">train</span></div
+          >
+          <div id="cv-row-4" class="cv-row" style="top: 308px"
+            ><span class="round">4회</span><span class="fold-cell">train</span
+            ><span class="fold-cell">train</span
+            ><span class="fold-cell">train</span
+            ><span class="fold-cell validation">validation</span
+            ><span class="fold-cell">train</span></div
+          >
+          <div id="cv-row-5" class="cv-row" style="top: 374px"
+            ><span class="round">5회</span><span class="fold-cell">train</span
+            ><span class="fold-cell">train</span
+            ><span class="fold-cell">train</span
+            ><span class="fold-cell">train</span
+            ><span class="fold-cell validation">validation</span></div
+          ></div
+        >
+        <div id="tuning-state">
+          <svg viewBox="0 0 80 54" aria-hidden="true">
+            <g stroke="currentColor" stroke-width="3" stroke-linecap="round">
+              <path d="M4 10H76M4 27H76M4 44H76" />
+              <circle id="tune-knob-1" cx="24" cy="10" r="6" fill="#fff" />
+              <circle id="tune-knob-2" cx="58" cy="27" r="6" fill="#fff" />
+              <circle id="tune-knob-3" cx="35" cy="44" r="6" fill="#fff" />
+            </g>
+          </svg>
+          <span>하이퍼파라미터 튜닝</span>
+        </div>
+        <div id="selected-setting"
+          ><svg viewBox="0 0 40 40" aria-hidden="true">
+            <path
+              d="M7 20L16 29L34 10"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="4"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            /></svg
+          ><span>하이퍼파라미터 선택</span></div
+        >
+        <div id="model-card"><h3>최종 모델</h3><p>train 전체로 학습</p></div>
+      </div>
+      <div id="split-test" class="dataset-block">
+        <div id="test-subjects"
+          ><div class="subject" style="left: 64px; top: 130px"
+            ><svg width="36" height="42" viewBox="0 0 40 46" aria-hidden="true">
+              <circle cx="20" cy="11" r="9" fill="currentColor" />
+              <path d="M5 42v-8a15 15 0 0 1 30 0v8Z" fill="currentColor" /></svg
+            ><div class="records"><i></i><i></i><i></i></div
+          ></div>
+          <div class="subject" style="left: 236px; top: 130px"
+            ><svg width="36" height="42" viewBox="0 0 40 46" aria-hidden="true">
+              <circle cx="20" cy="11" r="9" fill="currentColor" />
+              <path d="M5 42v-8a15 15 0 0 1 30 0v8Z" fill="currentColor" /></svg
+            ><div class="records"><i></i><i></i><i></i></div
+          ></div>
+          <div class="subject" style="left: 64px; top: 320px"
+            ><svg width="36" height="42" viewBox="0 0 40 46" aria-hidden="true">
+              <circle cx="20" cy="11" r="9" fill="currentColor" />
+              <path d="M5 42v-8a15 15 0 0 1 30 0v8Z" fill="currentColor" /></svg
+            ><div class="records"><i></i><i></i><i></i></div
+          ></div>
+          <div class="subject" style="left: 236px; top: 320px"
+            ><svg width="36" height="42" viewBox="0 0 40 46" aria-hidden="true">
+              <circle cx="20" cy="11" r="9" fill="currentColor" />
+              <path d="M5 42v-8a15 15 0 0 1 30 0v8Z" fill="currentColor" /></svg
+            ><div class="records"><i></i><i></i><i></i></div></div></div
+        ><p id="test-status">test 검증</p>
+      </div>
+      <div id="whole-outline"></div>
+      <svg
+        class="lines"
+        width="1920"
+        height="1080"
+        viewBox="0 0 1920 1080"
+        aria-hidden="true"
+      >
+        <defs>
+          <marker
+            id="detail-arrow"
+            markerUnits="userSpaceOnUse"
+            markerWidth="16"
+            markerHeight="14"
+            refX="12"
+            refY="7"
+            orient="auto"
+          >
+            <path
+              d="M2 2L12 7L2 12"
+              stroke="#075ddd"
+              stroke-width="2.5"
+              fill="none"
+            />
+          </marker>
+        </defs>
+        <path
+          id="refit-line"
+          d="M692 526V568"
+          fill="none"
+          stroke="#075ddd"
+          stroke-width="3"
+          marker-end="url(#detail-arrow)"
+        />
+        <path
+          id="test-line"
+          d="M980 670H1396"
+          fill="none"
+          stroke="#075ddd"
+          stroke-width="3"
+          marker-end="url(#detail-arrow)"
+        />
+        <circle id="test-pulse" cx="0" cy="0" r="7" fill="#075ddd" />
+      </svg>
+      <p class="source">train에서 모델 학습 · test에서 최종 검증</p>
+    </section></div
+  >
+  <script>
+    const crossvalidation = gsap.timeline({ paused: true });
+    const tl = crossvalidation;
+    function enter(id, t, d = 0.45) {
+      tl.fromTo(
+        id,
+        { opacity: 0, y: 10 },
+        { opacity: 1, y: 0, duration: d, ease: 'power2.out' },
+        t,
+      );
+    }
+    function draw(id, t, d = 0.5) {
+      const p = document.querySelector(id),
+        len = p.getTotalLength();
+      tl.fromTo(
+        p,
+        { opacity: 0, strokeDasharray: len, strokeDashoffset: len },
+        { opacity: 1, strokeDashoffset: 0, duration: d, ease: 'none' },
+        t,
+      );
+    }
+    // Holds follow the last visible tween; no invisible playback tail between steps.
+    // Local holds: .6, 2.75, 7.6, 13.35, 15.95, 19.2 (slides.json).
+    // One joined block becomes two persistent datasets. People and records stay grouped.
+    tl.set('#split-train', { x: 68 });
+    tl.set('#split-test', { x: -68 });
+    enter('#whole-label,#whole-outline,#split-train,#split-test', 0.1);
+    tl.to('#whole-label,#whole-outline', { opacity: 0, duration: 0.3 }, 0.85);
+    tl.to(
+      '#split-train,#split-test',
+      {
+        x: 0,
+        borderRadius: 16,
+        borderColor: '#b2c5df',
+        duration: 1.2,
+        ease: 'power2.inOut',
+      },
+      0.95,
+    );
+    enter('#train-label,#test-label', 2.25);
+    // Move the existing train people into the first fold row, then show all five rounds.
+    enter('#cv-panel', 3.0);
+    document
+      .querySelectorAll('#train-subjects .subject')
+      .forEach((person, i) => {
+        const left = 40 + (i % 8) * 136,
+          top = 130 + Math.floor(i / 8) * 190;
+        const targetX = 204.8 + (i % 5) * 205.6;
+        tl.to(
+          person,
+          {
+            x: targetX - 50 - left,
+            y: 137 - 55 - top,
+            scale: 0.28,
+            duration: 1.25,
+            ease: 'power2.inOut',
+          },
+          3.25 + i * 0.02,
+        );
+        tl.to(person, { opacity: 0, duration: 0.25 }, 4.75 + i * 0.02);
+      });
+    for (let i = 1; i <= 5; i++) {
+      const at = 4.45 + (i - 1) * 0.65;
+      enter('#cv-row-' + i, at, 0.5);
+      tl.fromTo(
+        '#cv-row-' + i + ' .validation',
+        { scale: 0.92 },
+        { scale: 1, duration: 0.35, ease: 'power2.out' },
+        at + 0.15,
+      );
+    }
+    // Tune within train only; the held-out test people and box do not move.
+    enter('#tuning-state', 7.85);
+    for (const [j, at] of [
+      [0, 8.5],
+      [1, 9.85],
+      [2, 11.2],
+    ]) {
+      tl.to(
+        '#tune-knob-1',
+        { x: [30, 8, 20][j], duration: 0.45, ease: 'power2.inOut' },
+        at,
+      );
+      tl.to(
+        '#tune-knob-2',
+        { x: [-26, -4, -16][j], duration: 0.45, ease: 'power2.inOut' },
+        at,
+      );
+      tl.to(
+        '#tune-knob-3',
+        { x: [22, -15, 8][j], duration: 0.45, ease: 'power2.inOut' },
+        at,
+      );
+      tl.to(
+        '.validation',
+        { backgroundColor: '#4389ee', duration: 0.22, stagger: 0.06 },
+        at + 0.2,
+      );
+      tl.to(
+        '.validation',
+        { backgroundColor: '#075ddd', duration: 0.22, stagger: 0.06 },
+        at + 0.7,
+      );
+    }
+    tl.to('#tuning-state', { opacity: 0, duration: 0.25 }, 12.5);
+    enter('#selected-setting', 12.85);
+    // Refit in the same train box, then connect the trained model to the same test box.
+    tl.to('#cv-panel', { opacity: 0, duration: 0.45 }, 13.6);
+    tl.to(
+      '#selected-setting',
+      { y: -376, duration: 0.75, ease: 'power2.inOut' },
+      13.8,
+    );
+    draw('#refit-line', 14.6, 0.5);
+    tl.fromTo(
+      '#split-train',
+      { borderColor: '#075ddd' },
+      { borderColor: '#b2c5df', duration: 0.8, immediateRender: false },
+      14.7,
+    );
+    enter('#model-card', 15.3, 0.6);
+    draw('#test-line', 16.2, 1.1);
+    tl.set('#test-pulse', { opacity: 0 }, 0);
+    tl.fromTo(
+      '#test-pulse',
+      { x: 980, y: 670, opacity: 1 },
+      {
+        x: 1396,
+        y: 670,
+        opacity: 1,
+        duration: 1.1,
+        ease: 'none',
+        immediateRender: false,
+      },
+      16.2,
+    );
+    tl.to('#test-pulse', { opacity: 0, duration: 0.12 }, 17.3);
+    tl.to('#split-test', { borderColor: '#075ddd', duration: 0.4 }, 17.3);
+    tl.to(
+      '#test-subjects .subject',
+      {
+        borderColor: '#075ddd',
+        color: '#075ddd',
+        duration: 0.4,
+        stagger: 0.15,
+      },
+      17.5,
+    );
+    enter('#test-status', 18.7);
+    window.__timelines.crossvalidation = crossvalidation;
+  </script>
+</template>

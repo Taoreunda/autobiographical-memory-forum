@@ -1,0 +1,233 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      background: #f3f6fa;
+      color: #111820;
+    }
+    #root .kicker {
+      color: #263443;
+      font-weight: 650;
+    }
+    #root h2 {
+      font-size: 64px;
+      margin-top: 26px;
+    }
+    #root .number {
+      top: auto;
+      bottom: 32px;
+      color: #536279;
+    }
+    .xai-panel {
+      position: absolute;
+      top: 290px;
+      width: 824px;
+      height: 640px;
+      border: 1.5px solid #b5c3d4;
+      border-radius: 16px;
+      background: #fff;
+      padding: 34px 38px;
+    }
+    #xai-importance {
+      left: 112px;
+    }
+    #xai-shap {
+      left: 984px;
+    }
+    .xai-panel h3 {
+      font-size: 56px;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.025em;
+    }
+    .xai-question {
+      font-size: 36px;
+      font-weight: 500;
+      margin-top: 12px;
+      color: #4c617b;
+      letter-spacing: -0.025em;
+    }
+    .xai-rank {
+      position: absolute;
+      left: 40px;
+      right: 40px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      gap: 34px;
+    }
+    .xai-rank-label {
+      width: 125px;
+      font-size: 40px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .xai-bar {
+      display: block;
+      height: 44px;
+      border-radius: 6px;
+      background: #8ba8d0;
+      width: calc(var(--bar-width) * var(--hf-grow, 1));
+    }
+    #xai-rank-a {
+      top: 230px;
+    }
+    #xai-rank-b {
+      top: 350px;
+    }
+    #xai-rank-c {
+      top: 470px;
+    }
+    #xai-rank-a .xai-bar {
+      --bar-width: 190px;
+    }
+    #xai-rank-b .xai-bar {
+      --bar-width: 500px;
+      background: #075ddd;
+    }
+    #xai-rank-c .xai-bar {
+      --bar-width: 350px;
+    }
+    #xai-shap-diagram {
+      position: absolute;
+      left: 40px;
+      top: 230px;
+      width: 744px;
+      height: 400px;
+      overflow: visible;
+    }
+    .xai-shap-label {
+      font-family: Pretendard, sans-serif;
+      font-size: 40px;
+      font-weight: 600;
+      fill: #111820;
+    }
+    .xai-axis-label {
+      font-family: Pretendard, sans-serif;
+      font-size: 30px;
+      font-weight: 500;
+      fill: #4c617b;
+    }
+  </style>
+  <div id="root" data-composition-id="xai" data-width="1920" data-height="1080">
+    <section class="page clip" data-start="0" data-duration="5" data-hold>
+      <p class="kicker">연구 방법</p><h2>모델 해석: XAI</h2
+      ><span class="number">10</span>
+      <div id="xai-importance" class="xai-panel">
+        <h3>특징 중요도</h3>
+        <p class="xai-question">어떤 특징이 중요한가</p>
+        <!-- Adapted from HyperFrames animated-bar-chart: seek-safe CSS variable growth. -->
+        <div id="xai-rank-a" class="xai-rank"
+          ><span class="xai-rank-label">특징 A</span
+          ><span class="xai-bar"></span
+        ></div>
+        <div id="xai-rank-b" class="xai-rank"
+          ><span class="xai-rank-label">특징 B</span
+          ><span class="xai-bar"></span
+        ></div>
+        <div id="xai-rank-c" class="xai-rank"
+          ><span class="xai-rank-label">특징 C</span
+          ><span class="xai-bar"></span
+        ></div>
+      </div>
+      <div id="xai-shap" class="xai-panel">
+        <h3>SHAP</h3><p class="xai-question">어느 방향으로 예측하는가</p>
+        <svg
+          id="xai-shap-diagram"
+          viewBox="0 0 744 400"
+          aria-label="한 예측에서 특징별 SHAP 기여 방향을 나타낸 설명용 예시"
+        >
+          <path
+            d="M390 0V310"
+            stroke="#aebed2"
+            stroke-width="2"
+            stroke-dasharray="5 7"
+            fill="none"
+          />
+          <g class="xai-shap-label">
+            <text x="0" y="43">특징 B</text>
+            <text x="0" y="163">특징 C</text>
+            <text x="0" y="283">특징 A</text>
+          </g>
+          <g
+            stroke="#075ddd"
+            stroke-width="7"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            fill="none"
+          >
+            <path id="xai-shap-b" d="M390 30H690m-10-7 10 7-10 7" />
+            <path id="xai-shap-c" d="M390 150H210m10-7-10 7 10 7" />
+            <path id="xai-shap-a" d="M390 270H500m-10-7 10 7-10 7" />
+          </g>
+          <g fill="#075ddd" stroke="#fff" stroke-width="4">
+            <circle id="xai-dot-b" cx="390" cy="30" r="8" />
+            <circle id="xai-dot-c" cx="390" cy="150" r="8" />
+            <circle id="xai-dot-a" cx="390" cy="270" r="8" />
+          </g>
+          <g class="xai-axis-label" text-anchor="middle">
+            <text x="390" y="355">0</text>
+            <text x="200" y="355">← 낮음 방향</text>
+            <text x="590" y="355">높음 방향 →</text>
+          </g>
+        </svg>
+      </div>
+    </section></div
+  >
+  <script>
+    const xai = gsap.timeline({ paused: true });
+    function reveal(id, t) {
+      xai.fromTo(
+        id,
+        { opacity: 0, y: 12 },
+        { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out' },
+        t,
+      );
+    }
+    function draw(id, t, d) {
+      const path = document.querySelector(id),
+        length = path.getTotalLength();
+      xai.fromTo(
+        path,
+        { opacity: 0, strokeDasharray: length, strokeDashoffset: length },
+        { opacity: 1, strokeDashoffset: 0, duration: d, ease: 'none' },
+        t,
+      );
+    }
+    reveal('#xai-importance', 0.1);
+    xai.fromTo(
+      '.xai-bar',
+      { '--hf-grow': 0 },
+      { '--hf-grow': 1, duration: 0.65, stagger: 0.1, ease: 'power2.out' },
+      0.65,
+    );
+    // Reorder labels and bars together; these are illustrative A/B/C features, not findings.
+    xai.to(
+      '#xai-rank-a',
+      { y: 240, duration: 0.55, ease: 'power2.inOut' },
+      1.7,
+    );
+    xai.to(
+      '#xai-rank-b,#xai-rank-c',
+      { y: -120, duration: 0.55, ease: 'power2.inOut' },
+      1.7,
+    );
+    reveal('#xai-shap', 2.55);
+    // Keep each dot 28px behind its arrow tip, with a white halo separating it from the shaft.
+    for (const [id, offset, distance] of [
+      ['b', 0, 272],
+      ['c', 0.35, -152],
+      ['a', 0.7, 82],
+    ]) {
+      draw('#xai-shap-' + id, 3.15 + offset, 0.6);
+      xai.fromTo(
+        '#xai-dot-' + id,
+        { x: 0, opacity: 0 },
+        { x: distance, opacity: 1, duration: 0.6, ease: 'none' },
+        3.15 + offset,
+      );
+    }
+    window.__timelines.xai = xai;
+  </script>
+</template>

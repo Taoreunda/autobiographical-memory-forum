@@ -1,0 +1,1003 @@
+<template
+  ><style>
+    #root {
+      position: absolute;
+      inset: 0;
+      background: #f3f6fa;
+      color: #111820;
+    }
+    #root .kicker {
+      color: #263443;
+      font-weight: 650;
+    }
+    #root h2 {
+      font-size: 64px;
+      margin-top: 26px;
+    }
+    #root .number {
+      top: auto;
+      bottom: 32px;
+      color: #536279;
+    }
+    .actor {
+      position: absolute;
+      top: 450px;
+      width: 224px;
+      height: 224px;
+    }
+    .actor svg {
+      width: 100%;
+      height: 100%;
+    }
+    #participant {
+      left: 128px;
+    }
+    #ai-avatar {
+      left: 1568px;
+    }
+    .actor-caption {
+      position: absolute;
+      top: 704px;
+      width: 272px;
+      font-size: 40px;
+      line-height: 1.3;
+      text-align: center;
+      font-weight: 650;
+    }
+    #person-caption {
+      left: 104px;
+    }
+    #ai-caption {
+      left: 1544px;
+      color: #075ddd;
+    }
+    .dialogue {
+      position: absolute;
+      box-sizing: border-box;
+      padding: 24px 36px;
+      font-size: 40px;
+      line-height: 1.35;
+      font-weight: 550;
+      letter-spacing: -0.025em;
+      --bubble-fill: #fff;
+      --bubble-stroke: #d9e2ed;
+    }
+    .dialogue.ai {
+      left: 496px;
+      width: 952px;
+      --bubble-fill: #e5eefc;
+      --bubble-stroke: #cbdcf3;
+    }
+    .dialogue.person {
+      left: 452px;
+      width: 952px;
+    }
+    #ai-cue {
+      top: 282px;
+      height: 108px;
+    }
+    #person-answer {
+      top: 414px;
+      height: 140px;
+    }
+    #ai-response {
+      top: 578px;
+      height: 144px;
+    }
+    #person-detail {
+      top: 746px;
+      height: 140px;
+    }
+    .bubble-surface {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      overflow: visible;
+      pointer-events: none;
+      filter: drop-shadow(0 9px 12px rgba(44, 69, 103, 0.055));
+    }
+    .dialogue.person .bubble-surface {
+      left: -24px;
+    }
+    .bubble-surface path {
+      fill: var(--bubble-fill);
+      stroke: var(--bubble-stroke);
+      stroke-width: 1.5;
+      stroke-linejoin: round;
+    }
+    .bubble-copy {
+      position: relative;
+      z-index: 1;
+    }
+    .dialogue strong {
+      color: #075ddd;
+      font-weight: 700;
+    }
+    #ai-response .bubble-copy p + p {
+      margin-top: 6px;
+    }
+    #merged-dialogue {
+      position: absolute;
+      left: 700px;
+      top: 470px;
+      width: 520px;
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+      z-index: 3;
+      font-size: 48px;
+      font-weight: 700;
+      --bubble-fill: #fff;
+      --bubble-stroke: #bdd0eb;
+    }
+    #merged-dialogue .merged-icon {
+      width: 100px;
+      height: 100px;
+      position: relative;
+    }
+    #merged-dialogue > span {
+      position: relative;
+    }
+    .feature-card {
+      position: absolute;
+      left: 216px;
+      top: 0;
+      width: 620px;
+      height: 170px;
+      background: #fff;
+      border: 2px solid #d1ddec;
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      padding: 24px 32px;
+      gap: 28px;
+    }
+    .feature-icon {
+      width: 72px;
+      height: 72px;
+      flex-shrink: 0;
+      color: #075ddd;
+    }
+    .feature-copy {
+      position: relative;
+      flex: 1;
+      height: 114px;
+    }
+    .feature-copy h3 {
+      font-size: 44px;
+      line-height: 1.25;
+      font-weight: 720;
+      color: #111820;
+      margin: 0;
+    }
+    .feature-content {
+      position: absolute;
+      left: 0;
+      top: 66px;
+      width: 430px;
+      height: 48px;
+      font-size: 36px;
+      line-height: 1.2;
+      color: #536279;
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+    .feature-content svg {
+      width: 390px;
+      height: 42px;
+    }
+    .voice-bar {
+      fill: #075ddd;
+    }
+    .vector {
+      position: absolute;
+      top: 76px;
+      left: 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      height: 28px;
+    }
+    .datum {
+      display: block;
+      width: 24px;
+      border-radius: 4px;
+      background: #075ddd;
+    }
+    #flow-links {
+      position: absolute;
+      inset: 0;
+      width: 1920px;
+      height: 1080px;
+      pointer-events: none;
+    }
+    .path {
+      fill: none;
+      stroke: #95a6bc;
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    #model-box {
+      position: absolute;
+      left: 1080px;
+      top: 446px;
+      width: 272px;
+      height: 248px;
+      border: 2px solid #9cbbe8;
+      border-radius: 30px;
+      background: #e7effc;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 24px;
+    }
+    #model-box h3 {
+      font-size: 42px;
+      font-weight: 720;
+      color: #075ddd;
+    }
+    .model-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 26px);
+      gap: 15px;
+    }
+    .model-cell {
+      width: 26px;
+      height: 26px;
+      border-radius: 5px;
+      background: #a8c8f7;
+    }
+    .result {
+      position: absolute;
+      left: 1544px;
+      width: 264px;
+      height: 136px;
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      font-size: 40px;
+      font-weight: 650;
+      line-height: 1.3;
+      box-sizing: border-box;
+    }
+    .result svg {
+      width: 64px;
+      height: 64px;
+      flex-shrink: 0;
+    }
+    #result-low {
+      top: 386px;
+    }
+    #result-high {
+      top: 618px;
+    }
+    .packet {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 14px;
+      height: 14px;
+      background: #075ddd;
+      border-radius: 4px;
+      z-index: 4;
+    }
+    #conclusion-message {
+      position: absolute;
+      left: 112px;
+      top: 944px;
+      width: 1696px;
+      text-align: center;
+      color: #075ddd;
+      font-size: 48px;
+      font-weight: 750;
+      letter-spacing: -0.03em;
+    }</style
+  ><div
+    id="root"
+    data-composition-id="conclusion"
+    data-width="1920"
+    data-height="1080"
+    ><section class="page clip" data-start="0" data-duration="35" data-hold
+      ><p class="kicker">향후 활용 구상</p
+      ><h2>AI와 나누는 기억, 데이터로 이어지는 면담</h2
+      ><span class="number">16</span>
+      <div id="participant" class="actor"
+        ><svg
+          viewBox="0 0 224 224"
+          role="img"
+          aria-label="기억을 이야기하는 참여자"
+        >
+          <circle
+            cx="112"
+            cy="112"
+            r="108"
+            fill="#fff"
+            stroke="#c7d5e6"
+            stroke-width="3"
+          />
+          <g
+            stroke="#3d5a7c"
+            stroke-width="6"
+            fill="none"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="112" cy="82" r="31" />
+            <path d="M52 175c0-35 25-56 60-56s60 21 60 56" />
+          </g>
+          <g
+            id="speaking-wave"
+            stroke="#075ddd"
+            stroke-width="4"
+            fill="none"
+            stroke-linecap="round"
+          >
+            <path d="M158 65q12 16 0 32M173 55q20 26 0 52" />
+          </g></svg
+      ></div>
+      <div id="ai-avatar" class="actor"
+        ><svg
+          viewBox="0 0 224 224"
+          role="img"
+          aria-label="공감과 추가 질문을 하는 AI 면담자"
+        >
+          <rect
+            x="4"
+            y="4"
+            width="216"
+            height="216"
+            rx="38"
+            fill="#e7effc"
+            stroke="#9cbbe8"
+            stroke-width="3"
+          />
+          <g
+            id="ai-face"
+            stroke="#075ddd"
+            stroke-width="5"
+            fill="none"
+            stroke-linecap="round"
+          >
+            <rect x="51" y="65" width="122" height="100" rx="28" fill="#fff" />
+            <path d="M112 45v20M43 100v30M181 100v30" />
+            <circle cx="112" cy="42" r="5" fill="#075ddd" />
+            <path d="M83 104v10M141 104v10M91 138q21 15 42 0" />
+          </g></svg
+      ></div>
+      <p id="person-caption" class="actor-caption">참여자</p
+      ><p id="ai-caption" class="actor-caption">AI 면담자</p>
+
+      <div id="ai-cue" class="dialogue ai"
+        ><svg
+          class="bubble-surface"
+          style="width: 976px"
+          viewBox="0 0 976 108"
+          aria-hidden="true"
+        >
+          <path
+            d="M32 1H920Q951 1 951 32V56C951 78 961 88 975 94C962 99 951 96 940 90Q932 107 916 107H32Q1 107 1 76V32Q1 1 32 1Z"
+          /></svg
+        ><div class="bubble-copy"
+          >‘<strong>편안하다</strong>’와 관련된 기억을 말씀해 주세요.</div
+        ></div
+      >
+      <div id="person-answer" class="dialogue person"
+        ><svg
+          class="bubble-surface"
+          style="width: 976px"
+          viewBox="0 0 976 140"
+          aria-hidden="true"
+        >
+          <path
+            transform="translate(976 0) scale(-1 1)"
+            d="M32 1H920Q951 1 951 32V88C951 110 961 120 975 126C962 131 951 128 940 122Q932 139 916 139H32Q1 139 1 108V32Q1 1 32 1Z"
+          /></svg
+        ><div class="bubble-copy"
+          >친구와 공원을 걸으며<br />마음이 편안했어요.</div
+        ></div
+      >
+      <div id="ai-response" class="dialogue ai"
+        ><svg
+          class="bubble-surface"
+          style="width: 976px"
+          viewBox="0 0 976 144"
+          aria-hidden="true"
+        >
+          <path
+            d="M32 1H920Q951 1 951 32V92C951 114 961 124 975 130C962 135 951 132 940 126Q932 143 916 143H32Q1 143 1 112V32Q1 1 32 1Z"
+          /></svg
+        ><div class="bubble-copy"
+          ><p>편안한 시간이었군요.</p
+          ><p>그날 <strong>언제, 어디에서</strong> 걸으셨나요?</p></div
+        ></div
+      >
+      <div id="person-detail" class="dialogue person"
+        ><svg
+          class="bubble-surface"
+          style="width: 976px"
+          viewBox="0 0 976 140"
+          aria-hidden="true"
+        >
+          <path
+            transform="translate(976 0) scale(-1 1)"
+            d="M32 1H920Q951 1 951 32V88C951 110 961 120 975 126C962 131 951 128 940 122Q932 139 916 139H32Q1 139 1 108V32Q1 1 32 1Z"
+          /></svg
+        ><div class="bubble-copy"
+          >지난 토요일 오후, 동네 공원에서<br />친구와 한 시간쯤 걸었어요.</div
+        ></div
+      >
+      <div id="merged-dialogue"
+        ><svg
+          class="bubble-surface"
+          style="width: 544px"
+          viewBox="0 0 544 200"
+          aria-hidden="true"
+        >
+          <path
+            d="M32 1H488Q519 1 519 32V148C519 170 529 180 543 186C530 191 519 188 508 182Q500 199 484 199H32Q1 199 1 168V32Q1 1 32 1Z"
+          /></svg
+        ><svg class="merged-icon" viewBox="0 0 100 100" aria-hidden="true">
+          <path
+            d="M18 22h64v48H43L25 82V70h-7Z"
+            fill="#e7effc"
+            stroke="#075ddd"
+            stroke-width="3"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M32 38h36M32 51h26"
+            fill="none"
+            stroke="#075ddd"
+            stroke-width="4"
+            stroke-linecap="round"
+          /></svg
+        ><span>면담 대화</span></div
+      >
+      <svg id="flow-links" viewBox="0 0 1920 1080" aria-hidden="true">
+        <path
+          id="memory-link"
+          class="path"
+          d="M836 350H916Q956 350 956 390V530Q956 570 996 570H1080"
+        />
+        <path id="voice-link" class="path" d="M836 570H1080" />
+        <path
+          id="text-link"
+          class="path"
+          d="M836 790H916Q956 790 956 750V610Q956 570 996 570H1080"
+        />
+        <path
+          id="low-link"
+          class="path"
+          d="M1352 570H1396Q1436 570 1436 530V494Q1436 454 1476 454H1518m-12-8 12 8-12 8"
+        />
+        <path
+          id="high-link"
+          class="path"
+          d="M1352 570H1396Q1436 570 1436 610V646Q1436 686 1476 686H1518m-12-8 12 8-12 8"
+        /></svg
+      ><div id="memory-card" class="feature-card" style="top: 265px"
+        ><svg
+          class="feature-icon"
+          viewBox="0 0 72 72"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <rect x="12" y="10" width="48" height="52" rx="7" />
+          <path d="M23 23h26M23 34h26M23 45h15M20 62v5h46V20" /></svg
+        ><div class="feature-copy"
+          ><h3>자서전적 기억</h3
+          ><div id="memory-content" class="feature-content"
+            >구체성 · 질문 · 공감</div
+          ><div id="memory-vector" class="vector"
+            ><span class="datum" style="height: 12px; opacity: 0.45"></span
+            ><span class="datum" style="height: 24px; opacity: 0.9"></span
+            ><span class="datum" style="height: 17px; opacity: 0.65"></span
+            ><span class="datum" style="height: 28px; opacity: 1"></span
+            ><span class="datum" style="height: 10px; opacity: 0.4"></span
+            ><span class="datum" style="height: 21px; opacity: 0.8"></span
+            ><span class="datum" style="height: 28px; opacity: 1"></span
+            ><span class="datum" style="height: 15px; opacity: 0.55"></span
+            ><span class="datum" style="height: 24px; opacity: 0.9"></span
+            ><span
+              class="datum"
+              style="height: 18px; opacity: 0.65"
+            ></span></div></div
+      ></div>
+      <div id="voice-card" class="feature-card" style="top: 485px"
+        ><svg
+          class="feature-icon"
+          viewBox="0 0 72 72"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <rect x="27" y="7" width="18" height="36" rx="9" />
+          <path d="M18 31v5a18 18 0 0 0 36 0v-5M36 54v11M25 65h22" /></svg
+        ><div class="feature-copy"
+          ><h3>음성</h3
+          ><div id="voice-content" class="feature-content"
+            ><svg viewBox="0 0 390 42" aria-hidden="true">
+              <rect
+                class="voice-bar"
+                x="0"
+                y="16.0"
+                width="6"
+                height="10"
+                rx="3"
+              />
+              <rect
+                class="voice-bar"
+                x="19"
+                y="12.0"
+                width="6"
+                height="18"
+                rx="3"
+              />
+              <rect
+                class="voice-bar"
+                x="38"
+                y="6.0"
+                width="6"
+                height="30"
+                rx="3"
+              />
+              <rect
+                class="voice-bar"
+                x="57"
+                y="1.0"
+                width="6"
+                height="40"
+                rx="3"
+              />
+              <rect
+                class="voice-bar"
+                x="76"
+                y="9.5"
+                width="6"
+                height="23"
+                rx="3"
+              />
+              <rect
+                class="voice-bar"
+                x="95"
+                y="13.5"
+                width="6"
+                height="15"
+                rx="3"
+              />
+              <rect
+                class="voice-bar"
+                x="114"
+                y="6.5"
+                width="6"
+                height="29"
+                rx="3"
+              />
+              <rect
+                class="voice-bar"
+                x="133"
+                y="1.0"
+                width="6"
+                height="40"
+                rx="3"
+              />
+              <rect
+                class="voice-bar"
+                x="152"
+                y="9.5"
+                width="6"
+                height="23"
+                rx="3"
+              />
+              <rect
+                class="voice-bar"
+                x="171"
+                y="14.0"
+                width="6"
+                height="14"
+                rx="3"
+              />
+              <rect
+                class="voice-bar"
+                x="190"
+                y="18.0"
+                width="6"
+                height="6"
+                rx="3"
+              />
+              <rect
+                class="voice-bar"
+                x="209"
+                y="11.0"
+                width="6"
+                height="20"
+                rx="3"
+              />
+              <rect
+                class="voice-bar"
+                x="228"
+                y="4.0"
+                width="6"
+                height="34"
+                rx="3"
+              />
+              <rect
+                class="voice-bar"
+                x="247"
+                y="0.0"
+                width="6"
+                height="42"
+                rx="3"
+              />
+              <rect
+                class="voice-bar"
+                x="266"
+                y="7.0"
+                width="6"
+                height="28"
+                rx="3"
+              />
+              <rect
+                class="voice-bar"
+                x="285"
+                y="12.5"
+                width="6"
+                height="17"
+                rx="3"
+              />
+              <rect
+                class="voice-bar"
+                x="304"
+                y="16.0"
+                width="6"
+                height="10"
+                rx="3"
+              />
+              <rect
+                class="voice-bar"
+                x="323"
+                y="9.0"
+                width="6"
+                height="24"
+                rx="3"
+              />
+              <rect
+                class="voice-bar"
+                x="342"
+                y="4.0"
+                width="6"
+                height="34"
+                rx="3"
+              />
+              <rect
+                class="voice-bar"
+                x="361"
+                y="13.0"
+                width="6"
+                height="16"
+                rx="3"
+              /></svg></div
+          ><div id="voice-vector" class="vector"
+            ><span class="datum" style="height: 12px; opacity: 0.45"></span
+            ><span class="datum" style="height: 24px; opacity: 0.9"></span
+            ><span class="datum" style="height: 17px; opacity: 0.65"></span
+            ><span class="datum" style="height: 28px; opacity: 1"></span
+            ><span class="datum" style="height: 10px; opacity: 0.4"></span
+            ><span class="datum" style="height: 21px; opacity: 0.8"></span
+            ><span class="datum" style="height: 28px; opacity: 1"></span
+            ><span class="datum" style="height: 15px; opacity: 0.55"></span
+            ><span class="datum" style="height: 24px; opacity: 0.9"></span
+            ><span
+              class="datum"
+              style="height: 18px; opacity: 0.65"
+            ></span></div></div
+      ></div>
+      <div id="text-card" class="feature-card" style="top: 705px"
+        ><svg
+          class="feature-icon"
+          viewBox="0 0 72 72"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M10 12h52v40H35L18 64V52h-8Z M22 25h28M22 37h20" /></svg
+        ><div class="feature-copy"
+          ><h3>텍스트</h3
+          ><div id="text-content" class="feature-content"
+            >친구와 · 한 시간 · 걸었어요</div
+          ><div id="text-vector" class="vector"
+            ><span class="datum" style="height: 12px; opacity: 0.45"></span
+            ><span class="datum" style="height: 24px; opacity: 0.9"></span
+            ><span class="datum" style="height: 17px; opacity: 0.65"></span
+            ><span class="datum" style="height: 28px; opacity: 1"></span
+            ><span class="datum" style="height: 10px; opacity: 0.4"></span
+            ><span class="datum" style="height: 21px; opacity: 0.8"></span
+            ><span class="datum" style="height: 28px; opacity: 1"></span
+            ><span class="datum" style="height: 15px; opacity: 0.55"></span
+            ><span class="datum" style="height: 24px; opacity: 0.9"></span
+            ><span
+              class="datum"
+              style="height: 18px; opacity: 0.65"
+            ></span></div></div
+      ></div>
+      <div id="model-box"
+        ><h3>분류 모델</h3
+        ><div class="model-grid"
+          ><span class="model-cell"></span><span class="model-cell"></span
+          ><span class="model-cell"></span><span class="model-cell"></span
+          ><span class="model-cell"></span><span class="model-cell"></span
+          ><span class="model-cell"></span><span class="model-cell"></span
+          ><span class="model-cell"></span></div></div
+      ><div id="result-low" class="result"
+        ><svg viewBox="0 0 54 54" aria-hidden="true">
+          <circle
+            cx="27"
+            cy="27"
+            r="23"
+            fill="#e3edfc"
+            stroke="#075ddd"
+            stroke-width="2"
+          />
+          <circle cx="19" cy="21" r="2.5" fill="#075ddd" />
+          <circle cx="35" cy="21" r="2.5" fill="#075ddd" />
+          <path
+            d="M18 35H36"
+            fill="none"
+            stroke="#075ddd"
+            stroke-width="2.5"
+            stroke-linecap="round"
+          /></svg
+        ><span>우울 증상<br />낮음</span></div
+      >
+      <div id="result-high" class="result"
+        ><svg viewBox="0 0 54 54" aria-hidden="true">
+          <circle
+            cx="27"
+            cy="27"
+            r="23"
+            fill="#e3edfc"
+            stroke="#075ddd"
+            stroke-width="2"
+          />
+          <circle cx="19" cy="21" r="2.5" fill="#075ddd" />
+          <circle cx="35" cy="21" r="2.5" fill="#075ddd" />
+          <path
+            d="M18 38Q27 29 36 38"
+            fill="none"
+            stroke="#075ddd"
+            stroke-width="2.5"
+            stroke-linecap="round"
+          /></svg
+        ><span>우울 증상<br />높음</span></div
+      >
+      <span class="packet" id="memory-packet-0"></span
+      ><span class="packet" id="memory-packet-1"></span
+      ><span class="packet" id="memory-packet-2"></span
+      ><span class="packet" id="memory-packet-3"></span
+      ><span class="packet" id="voice-packet-0"></span
+      ><span class="packet" id="voice-packet-1"></span
+      ><span class="packet" id="voice-packet-2"></span
+      ><span class="packet" id="voice-packet-3"></span
+      ><span class="packet" id="text-packet-0"></span
+      ><span class="packet" id="text-packet-1"></span
+      ><span class="packet" id="text-packet-2"></span
+      ><span class="packet" id="text-packet-3"></span
+      ><p id="conclusion-message"
+        >자서전적 기억 면담을 통한 우울 증상 분류의 가능성</p
+      ></section
+    ></div
+  ><script>
+    const tl = gsap.timeline({ paused: true });
+    function appear(id, t, d = 0.5) {
+      tl.fromTo(id, { opacity: 0 }, { opacity: 1, duration: d }, t);
+    }
+    function draw(id, t, d = 0.7) {
+      const p = document.querySelector(id),
+        len = p.getTotalLength();
+      tl.fromTo(
+        p,
+        { opacity: 0, strokeDasharray: len, strokeDashoffset: len },
+        { opacity: 1, strokeDashoffset: 0, duration: d, ease: 'none' },
+        t,
+      );
+    }
+    function pathPacket(selector, pathId, start, duration) {
+      const path = document.querySelector(pathId),
+        length = path.getTotalLength();
+      const points = Array.from({ length: 45 }, (_, i) => {
+        const p = path.getPointAtLength((length * i) / 44);
+        return {
+          x: p.x - 7,
+          y: p.y - 7,
+          duration: duration / 44,
+          ease: 'none',
+        };
+      });
+      tl.set(selector, { x: points[0].x, y: points[0].y }, start);
+      appear(selector, start, 0.12);
+      tl.to(selector, { keyframes: points.slice(1), ease: 'none' }, start);
+      tl.to(selector, { opacity: 0, duration: 0.15 }, start + duration - 0.1);
+    }
+    appear('#participant', 0.1);
+    appear('#ai-avatar', 0.1);
+    appear('.actor-caption', 0.3);
+    // Read geometry from the actual elements so CSS and motion cannot drift apart.
+    const bounds = (id) => {
+      const element = document.getElementById(id);
+      return {
+        left: element.offsetLeft,
+        top: element.offsetTop,
+        width: element.offsetWidth,
+        height: element.offsetHeight,
+      };
+    };
+    const merged = bounds('merged-dialogue');
+    const turns = ['ai-cue', 'person-answer', 'ai-response', 'person-detail'];
+    turns.forEach((id, i) =>
+      tl.fromTo(
+        '#' + id,
+        { opacity: 0, x: i % 2 ? -16 : 16 },
+        { opacity: 1, x: 0, duration: 0.55, ease: 'power2.out' },
+        0.7 + i * 3,
+      ),
+    );
+    [3.7, 9.7].forEach((t) =>
+      tl.fromTo(
+        '#speaking-wave',
+        { opacity: 0 },
+        { opacity: 1, duration: 0.3, repeat: 7, yoyo: true },
+        t,
+      ),
+    );
+    [0.7, 6.7].forEach((t) =>
+      tl.fromTo(
+        '#ai-face',
+        { opacity: 0.65 },
+        { opacity: 1, duration: 0.4, repeat: 5, yoyo: true },
+        t,
+      ),
+    );
+    // The four bubbles converge on the center of the conversation — never on the AI.
+    turns.forEach((id, i) => {
+      const { left, top, width, height } = bounds(id);
+      const t = 14 + i * 0.08;
+      tl.to('#' + id + ' .bubble-copy', { opacity: 0, duration: 0.35 }, t);
+      tl.to(
+        '#' + id,
+        {
+          x: merged.left - left,
+          y: merged.top - top,
+          scaleX: merged.width / width,
+          scaleY: merged.height / height,
+          transformOrigin: '0 0',
+          duration: 1.35,
+          ease: 'power2.inOut',
+        },
+        t,
+      );
+      tl.to('#' + id, { opacity: 0, duration: 0.3 }, 15.45);
+    });
+    appear('#merged-dialogue', 15.3, 0.45);
+    // Pause on the merged speech bubble, then let three representations unfold from it.
+    tl.to('#participant, #person-caption', { opacity: 0, duration: 0.55 }, 17);
+    tl.to('#merged-dialogue', { opacity: 0, duration: 0.65 }, 17.7);
+    ['memory', 'voice', 'text'].forEach((key, i) => {
+      const card = bounds(key + '-card');
+      tl.fromTo(
+        '#' + key + '-card',
+        {
+          x: merged.left - card.left,
+          y: merged.top - card.top,
+          scaleX: merged.width / card.width,
+          scaleY: merged.height / card.height,
+        },
+        {
+          x: 0,
+          y: 0,
+          scaleX: 1,
+          scaleY: 1,
+          transformOrigin: '0 0',
+          duration: 1.5,
+          ease: 'power2.inOut',
+        },
+        17.4 + i * 0.13,
+      );
+      appear('#' + key + '-card', 17.4 + i * 0.13, 0.3);
+      appear('#' + key + '-card .feature-icon', 18.7 + i * 0.13, 0.4);
+      appear('#' + key + '-card .feature-copy', 18.7 + i * 0.13, 0.4);
+      tl.to(
+        '#' + key + '-content',
+        { opacity: 0, y: -8, duration: 0.45 },
+        21.6 + i * 0.15,
+      );
+      appear('#' + key + '-vector', 22 + i * 0.15, 0.4);
+      tl.fromTo(
+        '#' + key + '-vector .datum',
+        { scaleY: 0 },
+        {
+          scaleY: 1,
+          duration: 0.4,
+          stagger: 0.04,
+          transformOrigin: '50% 100%',
+        },
+        22 + i * 0.15,
+      );
+      draw('#' + key + '-link', 23.2 + i * 0.15, 0.8);
+      for (let j = 0; j < 4; j++)
+        pathPacket(
+          '#' + key + '-packet-' + j,
+          '#' + key + '-link',
+          24.5 + j * 0.55 + i * 0.12,
+          1.55,
+        );
+    });
+    // The AI remains separate during the merge/split, then becomes the processing model.
+    tl.to('#ai-caption', { opacity: 0, duration: 0.35 }, 19.2);
+    const avatar = bounds('ai-avatar'),
+      model = bounds('model-box');
+    tl.to(
+      '#ai-avatar',
+      {
+        x: model.left - avatar.left,
+        y: model.top - avatar.top,
+        scaleX: model.width / avatar.width,
+        scaleY: model.height / avatar.height,
+        transformOrigin: '0 0',
+        duration: 1.15,
+        ease: 'power2.inOut',
+      },
+      19.2,
+    );
+    tl.to('#ai-face', { opacity: 0, duration: 0.45 }, 20.05);
+    tl.to('#ai-avatar', { opacity: 0, duration: 0.45 }, 20.3);
+    appear('#model-box', 20.3, 0.45);
+    document.querySelectorAll('.voice-bar').forEach((bar, i) => {
+      const x = Number(bar.getAttribute('x')) + 3;
+      tl.fromTo(
+        bar,
+        { scaleY: 0.3, svgOrigin: x + ' 21' },
+        { scaleY: 1, duration: 0.28, repeat: 5, yoyo: true },
+        19.2 + i * 0.015,
+      );
+    });
+    tl.to(
+      '.model-cell',
+      {
+        backgroundColor: '#075ddd',
+        duration: 0.22,
+        stagger: 0.09,
+        repeat: 5,
+        yoyo: true,
+      },
+      25.2,
+    );
+    ['low', 'high'].forEach((key, i) => {
+      const t = 28.3 + i * 1.7;
+      draw('#' + key + '-link', t, 0.7);
+      appear('#result-' + key, t + 0.55, 0.55);
+    });
+    tl.fromTo(
+      '#conclusion-message',
+      { opacity: 0, y: 12 },
+      { opacity: 1, y: 0, duration: 0.65 },
+      33.4,
+    );
+    window.__timelines.conclusion = tl;
+  </script></template
+>

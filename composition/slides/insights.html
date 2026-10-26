@@ -1,0 +1,137 @@
+<template>
+  <style>
+    #root {
+      position: absolute;
+      inset: 0;
+      background: #f3f6fa;
+      color: #111820;
+    }
+    #root .kicker {
+      color: #263443;
+      font-weight: 650;
+    }
+    #root h2 {
+      font-size: 64px;
+      margin-top: 26px;
+    }
+    #root .number {
+      top: auto;
+      bottom: 32px;
+      color: #536279;
+    }
+    .finding {
+      position: absolute;
+      left: 112px;
+      width: 1696px;
+      height: 116px;
+      background: #fff;
+      border-radius: 16px;
+      display: grid;
+      grid-template-columns: 720px 100px 1fr;
+      align-items: center;
+      padding: 0 40px;
+      font-size: 46px;
+      font-weight: 650;
+      letter-spacing: -0.025em;
+      box-sizing: border-box;
+    }
+    #specificity-finding {
+      top: 296px;
+    }
+    #question-finding {
+      top: 430px;
+    }
+    #engagement-finding {
+      top: 564px;
+    }
+    #empathy-finding {
+      top: 698px;
+    }
+    .feature {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    .feature strong {
+      color: #075ddd;
+      font-size: 62px;
+      font-weight: 600;
+    }
+    .route {
+      color: #70839a;
+      font-size: 48px;
+      text-align: center;
+    }
+    .outcome {
+      color: #075ddd;
+      font-size: 44px;
+      line-height: 1.3;
+    }
+    #insight-summary {
+      position: absolute;
+      left: 112px;
+      top: 862px;
+      width: 1696px;
+      border-top: 2px solid #cdd7e3;
+      padding-top: 28px;
+    }
+    #insight-message {
+      font-size: 46px;
+      font-weight: 650;
+      letter-spacing: -0.025em;
+    }
+  </style>
+  <div
+    id="root"
+    data-composition-id="insights"
+    data-width="1920"
+    data-height="1080"
+  >
+    <section class="page clip" data-start="0" data-duration="5" data-hold>
+      <p class="kicker">논의</p><h2>주요 결과와 의의</h2
+      ><span class="number">14</span>
+      <div id="specificity-finding" class="finding"
+        ><span class="feature">사건 구체성<strong>↓</strong></span
+        ><span class="route">→</span
+        ><span class="outcome">우울 증상 높음 예측에 기여</span></div
+      >
+      <div id="question-finding" class="finding"
+        ><span class="feature">면담자의 추가 질문<strong>↑</strong></span
+        ><span class="route">→</span
+        ><span class="outcome">우울 증상 높음 예측에 기여</span></div
+      >
+      <div id="engagement-finding" class="finding"
+        ><span class="feature">참여자 발화 비중<strong>↑</strong></span
+        ><span class="route">→</span
+        ><span class="outcome">우울 증상 낮음 예측에 기여</span></div
+      >
+      <div id="empathy-finding" class="finding"
+        ><span class="feature">면담자의 공감<strong>↑</strong></span
+        ><span class="route">→</span
+        ><span class="outcome">우울 증상 높음 예측에 기여</span></div
+      >
+      <div id="insight-summary"
+        ><p id="insight-message"
+          >기억·면담 상호작용과 함께 음향 특징도 분류에 기여</p
+        ></div
+      >
+    </section></div
+  >
+  <script>
+    const timeline = gsap.timeline({ paused: true });
+    function reveal(id, t) {
+      timeline.fromTo(
+        id,
+        { opacity: 0, y: 14 },
+        { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' },
+        t,
+      );
+    }
+    reveal('#specificity-finding', 0.1);
+    reveal('#question-finding', 0.7);
+    reveal('#engagement-finding', 1.3);
+    reveal('#empathy-finding', 1.9);
+    reveal('#insight-summary', 2.9);
+    window.__timelines.insights = timeline;
+  </script></template
+>
