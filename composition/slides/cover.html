@@ -92,7 +92,12 @@
       font-size: 38px;
       font-weight: 750;
     }
-    .cover-access { position:absolute;left:1548px;top:736px;display:block;z-index:3;text-decoration:none;color:#263443; }
+    .cover-qr { position:absolute;left:1548px;top:736px;width:260px;z-index:3; }
+    .cover-qr summary { position:absolute;left:-180px;top:172px;width:150px;height:88px;display:flex;align-items:center;justify-content:center;border:2px solid #b2c5df;border-radius:16px;background:#fff;color:#263443;font-family:inherit; font-size:38px;font-weight:650;cursor:pointer;list-style:none; }
+    .cover-qr summary::-webkit-details-marker { display:none; }
+    .cover-qr[open] summary { background:#075ddd;color:#fff;border-color:#075ddd; }
+    .cover-qr summary:focus-visible { outline:4px solid #075ddd;outline-offset:6px; }
+    .cover-access { display:block;text-decoration:none;color:#263443; }
     .cover-access img { width:260px;height:260px;display:block; }
     .cover-access:focus-visible { outline:4px solid #075ddd;outline-offset:8px; }
   </style>
@@ -139,13 +144,18 @@
           기반</span
         ><span class="cover-main" id="cover-main">우울 증상 분류</span></h1
       >
+      <details class="cover-qr"><summary aria-label="QR 코드 표시 또는 숨기기">QR</summary>
       <a class="cover-access" href="https://taoreunda.github.io/autobiographical-memory-forum/" target="_blank" rel="noopener" aria-label="발표자료 열기">
         <img src="assets/cover/presentation-qr.png" alt="발표자료 접속 QR 코드" width="260" height="260">
-      </a>
+      </a></details>
       <div class="cover-bottom"><span>2026. 10. 28.</span><span>01</span></div>
     </section>
   </div>
   <script>
+    // Keep QR activation separate from the deck's space/enter navigation.
+    document.querySelector('.cover-qr summary').addEventListener('keydown', (event) => {
+      if (event.key === ' ' || event.key === 'Enter') event.stopPropagation();
+    });
     window.__hf = window.__hf || {};
     window.__hf.buildReady = window.__hf.buildReady || {};
     window.__hf.buildReady.cover3D =

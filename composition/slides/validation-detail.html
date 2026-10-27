@@ -172,27 +172,24 @@
     }
     #model-card {
       position: absolute;
-      left: 300px;
-      top: 200px;
-      width: 560px;
-      height: 180px;
+      left: 100px;
+      top: 154px;
+      width: 960px;
+      height: 318px;
+      padding: 28px 32px;
+      box-sizing: border-box;
+      border: 2px solid #a8bad1;
       border-radius: 16px;
-      background: #075ddd;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 18px;
+      background: #fff;
+      color: #111820;
     }
-    #model-card h3 {
-      font-size: 48px;
-      font-weight: 700;
-    }
-    #model-card p {
-      font-size: 34px;
-      font-weight: 550;
-    }
+    .model-heading { display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; }
+    #model-card h3 { font-size:48px; font-weight:700; }
+    #final-model-label { font-size:40px; font-weight:650; }
+    .model-params { display:grid; grid-template-columns:1fr 1fr; gap:18px 32px; }
+    .model-params div { display:flex; align-items:baseline; justify-content:space-between; gap:12px; }
+    .model-params dt { font-size:30px; font-weight:500; }
+    .model-params dd { font-size:36px; font-weight:700; margin:0; font-variant-numeric:tabular-nums; }
     #test-status {
       position: absolute;
       left: 32px;
@@ -385,7 +382,18 @@
             /></svg
           ><span>하이퍼파라미터 선택</span></div
         >
-        <div id="model-card"><h3>최종 모델</h3><p>train 전체로 학습</p></div>
+        <!-- Actual acoustic-adjusted top-40 XGB settings; sampling ratios rounded to 6 decimals. -->
+        <div id="model-card">
+          <div class="model-heading"><h3>XGBoost</h3><span id="final-model-label">최종 모델</span></div>
+          <dl class="model-params">
+            <div><dt>n_estimators</dt><dd>342</dd></div>
+            <div><dt>max_depth</dt><dd>3</dd></div>
+            <div><dt>learning_rate</dt><dd>0.04</dd></div>
+            <div><dt>min_child_weight</dt><dd>1</dd></div>
+            <div><dt>subsample</dt><dd>0.733333</dd></div>
+            <div><dt>colsample_bytree</dt><dd>0.966667</dd></div>
+          </dl>
+        </div>
       </div>
       <div id="split-test" class="dataset-block">
         <div id="test-subjects"
@@ -441,16 +449,8 @@
           </marker>
         </defs>
         <path
-          id="refit-line"
-          d="M692 526V568"
-          fill="none"
-          stroke="#075ddd"
-          stroke-width="3"
-          marker-end="url(#detail-arrow)"
-        />
-        <path
           id="test-line"
-          d="M980 670H1396"
+          d="M1184 670H1396"
           fill="none"
           stroke="#075ddd"
           stroke-width="3"
@@ -565,28 +565,18 @@
         at + 0.7,
       );
     }
-    tl.to('#tuning-state', { opacity: 0, duration: 0.25 }, 12.5);
-    enter('#selected-setting', 12.85);
-    // Refit in the same train box, then connect the trained model to the same test box.
-    tl.to('#cv-panel', { opacity: 0, duration: 0.45 }, 13.6);
-    tl.to(
-      '#selected-setting',
-      { y: -376, duration: 0.75, ease: 'power2.inOut' },
-      13.8,
-    );
-    draw('#refit-line', 14.6, 0.5);
-    tl.fromTo(
-      '#split-train',
-      { borderColor: '#075ddd' },
-      { borderColor: '#b2c5df', duration: 0.8, immediateRender: false },
-      14.7,
-    );
-    enter('#model-card', 15.3, 0.6);
+    tl.to('#tuning-state,#cv-panel', { opacity: 0, duration: 0.25 }, 12.5);
+    // The selected settings stay visible as the card becomes the final model.
+    tl.set('#selected-setting', { y: -376 }, 0);
+    tl.fromTo('#selected-setting', { opacity: 0 }, { opacity: 1, duration: 0.45 }, 12.85);
+    enter('#model-card', 12.85);
+    tl.to('#model-card', { backgroundColor: '#075ddd', borderColor: '#075ddd', color: '#fff', duration: 0.6 }, 15.3);
+    enter('#final-model-label', 15.3, 0.6);
     draw('#test-line', 16.2, 1.1);
     tl.set('#test-pulse', { opacity: 0 }, 0);
     tl.fromTo(
       '#test-pulse',
-      { x: 980, y: 670, opacity: 1 },
+      { x: 1184, y: 670, opacity: 1 },
       {
         x: 1396,
         y: 670,
