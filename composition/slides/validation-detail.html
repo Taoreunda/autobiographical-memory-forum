@@ -382,7 +382,7 @@
             /></svg
           ><span>하이퍼파라미터 선택</span></div
         >
-        <!-- Actual acoustic-adjusted top-40 XGB settings; sampling ratios rounded to 6 decimals. -->
+        <!-- Actual acoustic-adjusted top-40 XGB settings; sampling ratios rounded to 2 decimals. -->
         <div id="model-card">
           <div class="model-heading"><h3>XGBoost</h3><span id="final-model-label">최종 모델</span></div>
           <dl class="model-params">
@@ -390,8 +390,8 @@
             <div><dt>max_depth</dt><dd>3</dd></div>
             <div><dt>learning_rate</dt><dd>0.04</dd></div>
             <div><dt>min_child_weight</dt><dd>1</dd></div>
-            <div><dt>subsample</dt><dd>0.733333</dd></div>
-            <div><dt>colsample_bytree</dt><dd>0.966667</dd></div>
+            <div><dt>subsample</dt><dd>0.73</dd></div>
+            <div><dt>colsample_bytree</dt><dd>0.97</dd></div>
           </dl>
         </div>
       </div>
@@ -483,7 +483,7 @@
       );
     }
     // Holds follow the last visible tween; no invisible playback tail between steps.
-    // Local holds: .6, 2.75, 7.6, 13.35, 15.95, 19.2 (slides.json).
+    // Local holds: .6, 2.75, 7.6, 19.2 (slides.json).
     // One joined block becomes two persistent datasets. People and records stay grouped.
     tl.set('#split-train', { x: 68 });
     tl.set('#split-test', { x: -68 });
